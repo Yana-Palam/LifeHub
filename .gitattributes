@@ -1,0 +1,3 @@
+# Однакові переноси рядків (LF) на всіх ОС — інакше Prettier скаржиться на CRLF у Windows
+* text=auto eol=lf
+*.ico binary
