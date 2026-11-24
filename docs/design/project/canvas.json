@@ -1,0 +1,45 @@
+{
+  "v": 3,
+  "createdOnFiles": {"v": 1, "at": "2026-11-24T10:00:00Z"},
+  "title": "LifeHub — дизайн ключових екранів",
+  "launch": {"view": "canvas"},
+  "pages": [],
+  "boards": {
+    "Main.dc.html": {"x": 0, "y": 1260, "w": 390, "h": 844, "title": "Dashboard", "is_interactive": true},
+    "AddExpense.dc.html": {"x": 470, "y": 1260, "w": 390, "h": 844, "title": "Нова витрата", "is_interactive": true},
+    "Transactions.dc.html": {"x": 940, "y": 1260, "w": 390, "h": 844, "title": "Історія транзакцій", "is_interactive": true},
+    "Budget.dc.html": {"x": 1410, "y": 1260, "w": 390, "h": 844, "title": "Бюджет місяця", "is_interactive": true},
+    "Menu.dc.html": {"x": 1880, "y": 1260, "w": 390, "h": 844, "title": "Тижневе меню", "is_interactive": true},
+    "Recipe.dc.html": {"x": 2350, "y": 1260, "w": 390, "h": 844, "title": "Рецепт", "is_interactive": true},
+    "Shopping.dc.html": {"x": 2820, "y": 1260, "w": 390, "h": 844, "title": "Список покупок", "is_interactive": true},
+    "Tokens.dc.html": {"x": 0, "y": 0, "w": 1200, "h": 900, "title": "Кольори, шрифт, компоненти"},
+    "BottomNav.dc.html": {"x": 1280, "y": 0, "w": 390, "h": 96, "title": "Компонент: нижня навігація", "is_interactive": true},
+    "MainDark.dc.html": {"x": 0, "y": 2464, "w": 390, "h": 844, "title": "Dashboard — темна", "is_interactive": true},
+    "TransactionsDark.dc.html": {"x": 470, "y": 2464, "w": 390, "h": 844, "title": "Історія — темна", "is_interactive": true},
+    "MenuDark.dc.html": {"x": 940, "y": 2464, "w": 390, "h": 844, "title": "Меню — темна", "is_interactive": true},
+    "DashboardDesktop.dc.html": {"x": 0, "y": 3668, "w": 1440, "h": 1000, "title": "Dashboard — desktop", "expand": "fill"}
+  },
+  "order": [
+    "Main.dc.html",
+    "AddExpense.dc.html",
+    "Transactions.dc.html",
+    "Budget.dc.html",
+    "Menu.dc.html",
+    "Recipe.dc.html",
+    "Shopping.dc.html",
+    "Tokens.dc.html",
+    "BottomNav.dc.html",
+    "MainDark.dc.html",
+    "TransactionsDark.dc.html",
+    "MenuDark.dc.html",
+    "DashboardDesktop.dc.html"
+  ],
+  "notes": {
+    "rowSystem": {"x": 0, "y": -300, "text": "Дизайн-система", "kind": "title1", "maxW": 1670},
+    "rowLight": {"x": 0, "y": 960, "text": "Телефон · світла тема", "kind": "title1", "maxW": 3210},
+    "rowDark": {"x": 0, "y": 2164, "text": "Телефон · темна тема", "kind": "title1", "maxW": 1330},
+    "rowDesktop": {"x": 0, "y": 3368, "text": "Desktop", "kind": "title1", "maxW": 1440},
+    "hint": {"x": 1440, "y": 2464, "w": 360, "text": "Кожен екран має перемикач «Темна тема» у Tweaks. Кнопки нижньої навігації та «+» працюють у режимі Play.", "fill": "green"}
+  },
+  "designSystems": []
+}

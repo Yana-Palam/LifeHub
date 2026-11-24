@@ -1,0 +1,101 @@
+<!doctype html>
+<html lang="uk">
+<head>
+<meta charset="utf-8">
+<title>LifeHub — список покупок</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&amp;display=swap">
+<style>
+body{margin:0}
+a{color:inherit;text-decoration:none}a:hover{color:inherit}
+.t-light{--bg:#F3F6F4;--fg:#0E1A16;--card:#FFFFFF;--muted:#EDF1EF;--mfg:#56665F;--border:#DFE6E2;--input:#D3DCD8;--primary:#047857;--pfg:#FFFFFF;--sec:#E6F4EE;--secfg:#065F46;--plan:#94A3A0;--shadow:0 1px 2px rgba(14,26,22,.06),0 4px 16px rgba(14,26,22,.06)}
+.t-dark{--bg:#0A110F;--fg:#E7F0EC;--card:#121B18;--muted:#18221F;--mfg:#97AAA3;--border:#24322D;--input:#2C3B36;--primary:#34D399;--pfg:#04271C;--sec:#1A2925;--secfg:#A7F3D0;--plan:#5E706A;--shadow:none}
+</style>
+</helmet>
+<div class="{{theme}}" style="width: 390px; height: 844px; position: relative; overflow: hidden; display: flex; flex-direction: column; background: var(--bg); color: var(--fg); font-family: Manrope, system-ui, sans-serif; font-variant-numeric: tabular-nums">
+  <div style="flex: 1 1 auto; overflow-y: auto; padding: 16px 16px 16px; display: flex; flex-direction: column; gap: 14px">
+    <header style="display: flex; flex-direction: column; gap: 4px; padding-top: 8px">
+      <span style="font-size: 13px; font-weight: 700; color: var(--mfg)">Покупки</span>
+      <h1 style="margin: 0; font-size: 26px; line-height: 32px; font-weight: 800">Меню 23 – 29 листопада</h1>
+    </header>
+
+    <section style="background: var(--card); border-radius: 20px; box-shadow: var(--shadow); padding: 14px; display: flex; flex-direction: column; gap: 8px">
+      <div style="display: flex; justify-content: space-between; align-items: baseline">
+        <span style="font-size: 15px; font-weight: 800">Куплено {{done}} з {{total}}</span>
+        <span style="font-size: 13px; font-weight: 700; color: var(--mfg)">≈ 1 240 ₴ <span style="text-transform: uppercase; font-size: 12px; letter-spacing: .4px; color: var(--plan)">план</span></span>
+      </div>
+      <div style="height: 8px; border-radius: 999px; background: var(--muted); overflow: hidden">
+        <div style="height: 100%; border-radius: 999px; background: var(--primary); width: {{progress}}"></div>
+      </div>
+    </section>
+
+    <sc-for list="{{groups}}" as="g" hint-placeholder-count="4">
+      <section style="display: flex; flex-direction: column; gap: 8px">
+        <h2 style="margin: 0; padding: 0 4px; font-size: 12px; font-weight: 800; letter-spacing: .4px; text-transform: uppercase; color: var(--mfg)">{{g.name}}</h2>
+        <div style="background: var(--card); border-radius: 20px; box-shadow: var(--shadow); display: flex; flex-direction: column">
+          <sc-for list="{{g.items}}" as="it" hint-placeholder-count="3">
+            <label style="min-height: 56px; display: flex; align-items: center; gap: 12px; padding: 6px 14px; border-bottom: 1px solid var(--border); cursor: pointer">
+              <input type="checkbox" checked="{{it.checked}}" onChange="{{it.toggle}}" style="width: 22px; height: 22px; accent-color: var(--primary); flex: 0 0 auto; margin: 0">
+              <span style="flex: 1 1 auto; display: flex; flex-direction: column; gap: 2px; {{it.textStyle}}">
+                <span style="font-size: 15px; font-weight: 700">{{it.name}}</span>
+                <span style="font-size: 12px; font-weight: 600; color: var(--mfg)">{{it.source}}</span>
+              </span>
+              <span style="font-size: 14px; font-weight: 800; white-space: nowrap; {{it.textStyle}}">{{it.qty}}</span>
+            </label>
+          </sc-for>
+        </div>
+      </section>
+    </sc-for>
+
+    <button type="button" style="height: 48px; border-radius: 14px; border: 1.5px dashed var(--input); background: transparent; color: var(--mfg); font-family: inherit; font-size: 14px; font-weight: 700">+ Додати товар</button>
+  </div>
+
+  <div style="padding: 8px 16px 12px; background: var(--bg)">
+    <a href="Transactions.dc.html" style="height: 52px; border-radius: 14px; background: var(--primary); color: var(--pfg); display: flex; flex-direction: column; align-items: center; justify-content: center">
+      <span style="font-size: 15px; font-weight: 800">Оформити покупку ({{done}})</span>
+      <span style="font-size: 12px; font-weight: 600; opacity: .85">одна витрата на всю покупку</span>
+    </a>
+  </div>
+  <dc-import name="BottomNav" active="shopping" dark="{{dark}}" hint-size="390px,96px"></dc-import>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"dark":{"editor":"boolean","default":false,"section":"Тема"},"$preview":{"width":390,"height":844}}'>
+class Component extends DCLogic {
+  constructor(props) {
+    super(props);
+    this.state = { bought: { 'Сир кисломолочний': true, 'Сметана': true, 'Гранола': true, 'Томатна паста': true, 'Морква': true } };
+  }
+  renderVals() {
+    const dark = this.props.dark ?? false;
+    const data = [
+      { name: 'Овочі', items: [['Картопля', '1,3 кг', 'з меню · борщ, деруни'], ['Буряк', '450 г', 'з меню · борщ'], ['Капуста білокачанна', '450 г', 'з меню · борщ'], ['Морква', '3 шт', 'з меню · 3 страви'], ['Цибуля', '4 шт', 'з меню · 4 страви']] },
+      { name: 'Мʼясо і риба', items: [['Яловичина на кістці', '750 г', 'з меню · борщ'], ['Куряче філе', '600 г', 'з меню · курка з овочами']] },
+      { name: 'Молочне', items: [['Сир кисломолочний', '500 г', 'з меню · сирники'], ['Сметана', '200 г', 'з меню · 2 страви'], ['Йогурт натуральний', '400 г', 'з меню · гранола']] },
+      { name: 'Бакалія', items: [['Гранола', '300 г', 'додано вручну'], ['Томатна паста', '1 шт', 'з меню · борщ']] }
+    ];
+    const b = this.state.bought;
+    let total = 0;
+    let done = 0;
+    const groups = data.map((g) => ({
+      name: g.name,
+      items: g.items.map((i) => {
+        total += 1;
+        const on = !!b[i[0]];
+        if (on) done += 1;
+        return {
+          name: i[0], qty: i[1], source: i[2], checked: on,
+          textStyle: on ? 'opacity: .55; text-decoration: line-through' : '',
+          toggle: () => this.setState({ bought: { ...this.state.bought, [i[0]]: !on } })
+        };
+      })
+    }));
+    return { dark: dark, theme: dark ? 't-dark' : 't-light', groups: groups, done: done, total: total, progress: Math.round((done / total) * 100) + '%' };
+  }
+}
+</script>
+</body>
+</html>

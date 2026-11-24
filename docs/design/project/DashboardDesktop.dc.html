@@ -1,0 +1,124 @@
+<!doctype html>
+<html lang="uk">
+<head>
+<meta charset="utf-8">
+<title>LifeHub — Dashboard на комп'ютері</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&amp;display=swap">
+<style>
+body{margin:0}
+a{color:inherit;text-decoration:none}a:hover{color:inherit}
+.t-light{--bg:#F3F6F4;--fg:#0E1A16;--card:#FFFFFF;--muted:#EDF1EF;--mfg:#56665F;--border:#DFE6E2;--input:#D3DCD8;--primary:#047857;--pfg:#FFFFFF;--sec:#E6F4EE;--secfg:#065F46;--income:#047857;--expense:#BE123C;--warning:#B45309;--warnsoft:#FEF3C7;--plan:#94A3A0;--hero:linear-gradient(135deg,#047857 0%,#0F766E 55%,#0E7490 100%);--shadow:0 1px 2px rgba(14,26,22,.06),0 4px 16px rgba(14,26,22,.06);--c1:#059669;--c2:#2563EB;--c3:#D97706;--c4:#7C3AED;--c6:#0891B2;--c7:#94A3B8}
+.t-dark{--bg:#0A110F;--fg:#E7F0EC;--card:#121B18;--muted:#18221F;--mfg:#97AAA3;--border:#24322D;--input:#2C3B36;--primary:#34D399;--pfg:#04271C;--sec:#1A2925;--secfg:#A7F3D0;--income:#34D399;--expense:#FB7185;--warning:#FBBF24;--warnsoft:#3A2C0B;--plan:#5E706A;--hero:linear-gradient(135deg,#065F46 0%,#115E59 55%,#155E75 100%);--shadow:none;--c1:#34D399;--c2:#60A5FA;--c3:#FBBF24;--c4:#A78BFA;--c6:#22D3EE;--c7:#64748B}
+</style>
+</helmet>
+<div class="{{theme}}" style="min-height: 1000px; display: flex; flex-wrap: wrap; background: var(--bg); color: var(--fg); font-family: Manrope, system-ui, sans-serif; font-variant-numeric: tabular-nums">
+  <aside style="flex: 1 1 248px; max-width: 100%; box-sizing: border-box; padding: 24px 16px; background: var(--card); border-right: 1px solid var(--border); display: flex; flex-direction: column; gap: 20px">
+    <div style="display: flex; align-items: center; gap: 10px; padding: 0 8px">
+      <span style="width: 36px; height: 36px; border-radius: 12px; background: var(--hero); color: #FFFFFF; display: flex; align-items: center; justify-content: center; font-size: 16px; font-weight: 800">L</span>
+      <span style="font-size: 20px; font-weight: 800">LifeHub</span>
+    </div>
+    <a href="AddExpense.dc.html" style="height: 44px; border-radius: 12px; background: var(--primary); color: var(--pfg); display: flex; align-items: center; justify-content: center; gap: 8px; font-size: 15px; font-weight: 800">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 5v14"></path><path d="M5 12h14"></path></svg>
+      Операція
+    </a>
+    <nav aria-label="Розділи" style="display: flex; flex-direction: column; gap: 2px">
+      <sc-for list="{{nav}}" as="n" hint-placeholder-count="10">
+        <a href="{{n.href}}" style="height: 40px; padding: 0 12px; border-radius: 10px; display: flex; align-items: center; font-size: 14px; font-weight: 700; {{n.style}}">{{n.label}}</a>
+      </sc-for>
+    </nav>
+  </aside>
+
+  <main style="flex: 999 1 560px; min-width: 0; box-sizing: border-box; padding: 32px; display: flex; flex-direction: column; gap: 24px">
+    <header style="display: flex; justify-content: space-between; align-items: flex-end; flex-wrap: wrap; gap: 12px">
+      <div style="display: flex; flex-direction: column; gap: 2px">
+        <span style="font-size: 13px; font-weight: 600; color: var(--mfg)">Вівторок, 24 листопада 2026</span>
+        <h1 style="margin: 0; font-size: 28px; line-height: 34px; font-weight: 800">Головна</h1>
+      </div>
+      <div role="alert" style="background: var(--warnsoft); border-radius: 12px; padding: 10px 14px; font-size: 13px; font-weight: 700"><span style="color: var(--warning)">▲</span> Кафе і ресторани: перевищено на 920 ₴</div>
+    </header>
+
+    <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 24px">
+      <section style="grid-column: span 2; min-width: 0; background: var(--hero); color: #FFFFFF; border-radius: 24px; padding: 24px; display: flex; flex-direction: column; gap: 16px">
+        <span style="font-size: 14px; font-weight: 600; color: rgba(255,255,255,.85)">Загальний баланс · 3 рахунки</span>
+        <span style="font-size: 44px; line-height: 48px; font-weight: 800">48 320,50 ₴</span>
+        <div style="display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 12px">
+          <div style="background: rgba(255,255,255,.14); border-radius: 16px; padding: 12px"><div style="font-size: 12px; font-weight: 600; color: rgba(255,255,255,.85)">Картка</div><div style="font-size: 17px; font-weight: 800">31 120,00 ₴</div></div>
+          <div style="background: rgba(255,255,255,.14); border-radius: 16px; padding: 12px"><div style="font-size: 12px; font-weight: 600; color: rgba(255,255,255,.85)">Готівка</div><div style="font-size: 17px; font-weight: 800">3 200,00 ₴</div></div>
+          <div style="background: rgba(255,255,255,.14); border-radius: 16px; padding: 12px"><div style="font-size: 12px; font-weight: 600; color: rgba(255,255,255,.85)">Накопичувальний</div><div style="font-size: 17px; font-weight: 800">14 000,50 ₴</div></div>
+        </div>
+      </section>
+
+      <section style="background: var(--card); border-radius: 20px; box-shadow: var(--shadow); padding: 20px; display: flex; flex-direction: column; gap: 12px">
+        <span style="font-size: 16px; font-weight: 700">Листопад</span>
+        <div style="display: flex; justify-content: space-between"><span style="font-size: 14px; font-weight: 600; color: var(--mfg)">Доходи</span><span style="font-size: 18px; font-weight: 800; color: var(--income)">+62 000,00 ₴</span></div>
+        <div style="display: flex; justify-content: space-between"><span style="font-size: 14px; font-weight: 600; color: var(--mfg)">Витрати</span><span style="font-size: 18px; font-weight: 800; color: var(--expense)">−31 845,20 ₴</span></div>
+        <div style="height: 1px; background: var(--border)"></div>
+        <div style="display: flex; justify-content: space-between"><span style="font-size: 14px; font-weight: 600; color: var(--mfg)">Залишок бюджету</span><span style="font-size: 18px; font-weight: 800">10 154,80 ₴</span></div>
+        <div style="height: 8px; border-radius: 999px; background: var(--muted); overflow: hidden"><div style="width: 76%; height: 100%; border-radius: 999px; background: var(--income)"></div></div>
+        <span style="font-size: 12px; font-weight: 600; color: var(--mfg)">76 % з 42 000 ₴ · 7 днів до кінця місяця</span>
+      </section>
+
+      <section style="background: var(--card); border-radius: 20px; box-shadow: var(--shadow); padding: 20px; display: flex; flex-direction: column; gap: 12px">
+        <span style="font-size: 16px; font-weight: 700">Витрати за категоріями</span>
+        <sc-for list="{{cats}}" as="c" hint-placeholder-count="5">
+          <div style="display: flex; flex-direction: column; gap: 4px">
+            <div style="display: flex; justify-content: space-between; font-size: 13px; font-weight: 700"><span>{{c.name}}</span><span>{{c.sum}}</span></div>
+            <div style="height: 6px; border-radius: 999px; background: var(--muted); overflow: hidden"><div style="height: 100%; border-radius: 999px; width: {{c.w}}; background: {{c.color}}"></div></div>
+          </div>
+        </sc-for>
+      </section>
+
+      <a href="Menu.dc.html" style="background: var(--card); border-radius: 20px; box-shadow: var(--shadow); padding: 20px; display: flex; flex-direction: column; gap: 12px">
+        <div style="display: flex; justify-content: space-between"><span style="font-size: 16px; font-weight: 700">Меню на сьогодні</span><span style="font-size: 13px; font-weight: 700; color: var(--primary)">Тиждень →</span></div>
+        <sc-for list="{{meals}}" as="m" hint-placeholder-count="4">
+          <div style="display: flex; gap: 12px; font-size: 14px"><span style="width: 72px; font-size: 12px; font-weight: 700; color: var(--mfg)">{{m.t}}</span><span style="font-weight: 600">{{m.d}}</span></div>
+        </sc-for>
+      </a>
+
+      <section style="background: var(--card); border-radius: 20px; box-shadow: var(--shadow); padding: 20px; display: flex; flex-direction: column; gap: 14px">
+        <span style="font-size: 16px; font-weight: 700">Цілі</span>
+        <div style="display: flex; flex-direction: column; gap: 6px"><div style="display: flex; justify-content: space-between; font-size: 14px; font-weight: 600"><span>Відпустка в Карпатах</span><span>62 %</span></div><div style="height: 8px; border-radius: 999px; background: var(--muted); overflow: hidden"><div style="width: 62%; height: 100%; border-radius: 999px; background: var(--c6)"></div></div><span style="font-size: 12px; font-weight: 600; color: var(--mfg)">18 500 ₴ з 30 000 ₴</span></div>
+        <div style="display: flex; flex-direction: column; gap: 6px"><div style="display: flex; justify-content: space-between; font-size: 14px; font-weight: 600"><span>Подушка безпеки</span><span>45 %</span></div><div style="height: 8px; border-radius: 999px; background: var(--muted); overflow: hidden"><div style="width: 45%; height: 100%; border-radius: 999px; background: var(--c2)"></div></div><span style="font-size: 12px; font-weight: 600; color: var(--mfg)">54 000 ₴ з 120 000 ₴</span></div>
+      </section>
+
+      <section style="background: var(--card); border-radius: 20px; box-shadow: var(--shadow); padding: 20px; display: flex; flex-direction: column; gap: 12px">
+        <span style="font-size: 16px; font-weight: 700">Великі покупки</span>
+        <div style="display: flex; justify-content: space-between; align-items: baseline"><span style="font-size: 14px; font-weight: 700">Пральна машина</span><span style="font-size: 14px; font-weight: 800; color: var(--mfg)">≈ 18 000 ₴</span></div>
+        <span style="font-size: 12px; font-weight: 600; color: var(--mfg)">до 15.01.2027 · <span style="text-transform: uppercase; letter-spacing: .4px; color: var(--plan)">план</span></span>
+      </section>
+    </div>
+  </main>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"dark":{"editor":"boolean","default":false,"section":"Тема"},"$preview":{"width":1440,"height":1000}}'>
+class Component extends DCLogic {
+  renderVals() {
+    const dark = this.props.dark ?? false;
+    const items = [
+      ['Головна', 'DashboardDesktop.dc.html'], ['Операції', 'Transactions.dc.html'], ['Бюджети', 'Budget.dc.html'], ['Цілі', 'DashboardDesktop.dc.html'],
+      ['Покупки', 'Shopping.dc.html'], ['Меню', 'Menu.dc.html'], ['Рецепти', 'Recipe.dc.html'], ['Запаси', 'DashboardDesktop.dc.html'],
+      ['Подорожі', 'DashboardDesktop.dc.html'], ['AI-помічник', 'DashboardDesktop.dc.html']
+    ];
+    const nav = items.map((n, i) => ({ label: n[0], href: n[1], style: i === 0 ? 'background: var(--sec); color: var(--secfg)' : 'color: var(--fg)' }));
+    const cats = [
+      { name: 'Продукти', sum: '12 480 ₴', w: '100%', color: 'var(--c1)' },
+      { name: 'Комунальні', sum: '6 240 ₴', w: '50%', color: 'var(--c2)' },
+      { name: 'Кафе і ресторани', sum: '4 920 ₴', w: '39%', color: 'var(--c3)' },
+      { name: 'Транспорт', sum: '3 150 ₴', w: '25%', color: 'var(--c4)' },
+      { name: 'Інше', sum: '5 055 ₴', w: '41%', color: 'var(--c7)' }
+    ];
+    const meals = [
+      { t: 'Сніданок', d: 'Сирники зі сметаною' }, { t: 'Обід', d: 'Борщ український' },
+      { t: 'Вечеря', d: 'Курка з овочами в духовці' }, { t: 'Перекус', d: 'Гранола з йогуртом' }
+    ];
+    return { theme: dark ? 't-dark' : 't-light', nav: nav, cats: cats, meals: meals };
+  }
+}
+</script>
+</body>
+</html>

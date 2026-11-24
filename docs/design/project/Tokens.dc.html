@@ -1,0 +1,91 @@
+<!doctype html>
+<html lang="uk">
+<head>
+<meta charset="utf-8">
+<title>LifeHub — кольори, шрифт, компоненти</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&amp;display=swap">
+<style>
+body{margin:0}
+a{color:inherit;text-decoration:none}a:hover{color:inherit}
+.t-light{--bg:#F3F6F4;--fg:#0E1A16;--card:#FFFFFF;--muted:#EDF1EF;--mfg:#56665F;--border:#DFE6E2;--input:#D3DCD8;--primary:#047857;--pfg:#FFFFFF;--sec:#E6F4EE;--secfg:#065F46;--income:#047857;--expense:#BE123C;--transfer:#1D4ED8;--warning:#B45309;--warnsoft:#FEF3C7;--plan:#94A3A0;--hero:linear-gradient(135deg,#047857 0%,#0F766E 55%,#0E7490 100%)}
+.t-dark{--bg:#0A110F;--fg:#E7F0EC;--card:#121B18;--muted:#18221F;--mfg:#97AAA3;--border:#24322D;--input:#2C3B36;--primary:#34D399;--pfg:#04271C;--sec:#1A2925;--secfg:#A7F3D0;--income:#34D399;--expense:#FB7185;--transfer:#60A5FA;--warning:#FBBF24;--warnsoft:#3A2C0B;--plan:#5E706A;--hero:linear-gradient(135deg,#065F46 0%,#115E59 55%,#155E75 100%)}
+</style>
+</helmet>
+<div style="width: 1200px; height: 900px; box-sizing: border-box; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); font-family: Manrope, system-ui, sans-serif; font-variant-numeric: tabular-nums">
+  <sc-for list="{{themes}}" as="th" hint-placeholder-count="2">
+    <div class="{{th.cls}}" style="background: var(--bg); color: var(--fg); padding: 40px; display: flex; flex-direction: column; gap: 24px">
+      <div style="display: flex; justify-content: space-between; align-items: baseline">
+        <h1 style="margin: 0; font-size: 28px; line-height: 34px; font-weight: 800">LifeHub</h1>
+        <span style="font-size: 13px; font-weight: 700; color: var(--mfg)">{{th.name}}</span>
+      </div>
+
+      <div style="background: var(--hero); color: #FFFFFF; border-radius: 24px; padding: 20px; display: flex; flex-direction: column; gap: 6px">
+        <span style="font-size: 13px; font-weight: 600; color: rgba(255,255,255,.85)">Hero · баланс</span>
+        <span style="font-size: 40px; line-height: 44px; font-weight: 800">48 320,50 ₴</span>
+      </div>
+
+      <div style="display: flex; flex-direction: column; gap: 10px">
+        <span style="font-size: 12px; font-weight: 800; letter-spacing: .4px; text-transform: uppercase; color: var(--mfg)">Базові та статусні кольори</span>
+        <div style="display: grid; grid-template-columns: repeat(6, minmax(0, 1fr)); gap: 8px">
+          <sc-for list="{{swatches}}" as="sw" hint-placeholder-count="12">
+            <div style="display: flex; flex-direction: column; gap: 4px">
+              <span style="height: 40px; border-radius: 12px; border: 1px solid var(--border); background: {{sw.v}}"></span>
+              <span style="font-size: 12px; font-weight: 700">{{sw.n}}</span>
+            </div>
+          </sc-for>
+        </div>
+      </div>
+
+      <div style="display: flex; flex-direction: column; gap: 10px">
+        <span style="font-size: 12px; font-weight: 800; letter-spacing: .4px; text-transform: uppercase; color: var(--mfg)">Шрифт Manrope</span>
+        <div style="display: flex; flex-direction: column; gap: 4px">
+          <span style="font-size: 28px; line-height: 34px; font-weight: 800">H1 · Заголовок екрана</span>
+          <span style="font-size: 20px; line-height: 28px; font-weight: 700">H2 · Секція і суми 12 480,00 ₴</span>
+          <span style="font-size: 15px; line-height: 22px; font-weight: 500">Body · Основний текст для описів і полів форм.</span>
+          <span style="font-size: 13px; line-height: 18px; font-weight: 500; color: var(--mfg)">Small · Підписи та метадані</span>
+        </div>
+      </div>
+
+      <div style="display: flex; flex-direction: column; gap: 10px">
+        <span style="font-size: 12px; font-weight: 800; letter-spacing: .4px; text-transform: uppercase; color: var(--mfg)">Компоненти</span>
+        <div style="display: flex; gap: 8px; flex-wrap: wrap; align-items: center">
+          <button type="button" style="height: 44px; padding: 0 18px; border-radius: 12px; border: 0; background: var(--primary); color: var(--pfg); font-family: inherit; font-size: 15px; font-weight: 800">Зберегти</button>
+          <button type="button" style="height: 44px; padding: 0 18px; border-radius: 12px; border: 0; background: var(--sec); color: var(--secfg); font-family: inherit; font-size: 15px; font-weight: 800">Скасувати</button>
+          <button type="button" style="height: 44px; padding: 0 18px; border-radius: 12px; border: 1px solid var(--expense); background: transparent; color: var(--expense); font-family: inherit; font-size: 15px; font-weight: 800">Видалити</button>
+          <span style="height: 32px; padding: 0 12px; border-radius: 999px; background: var(--warnsoft); color: var(--warning); display: flex; align-items: center; font-size: 12px; font-weight: 800">89 % бюджету</span>
+        </div>
+        <div style="display: flex; gap: 20px; font-size: 18px; font-weight: 800">
+          <span style="color: var(--income)">+62 000,00 ₴</span>
+          <span style="color: var(--expense)">−1 284,60 ₴</span>
+          <span style="color: var(--transfer)">2 000,00 ₴</span>
+          <span style="color: var(--plan)">≈ 18 000 ₴ план</span>
+        </div>
+        <div style="height: 8px; border-radius: 999px; background: var(--muted); overflow: hidden"><div style="width: 62%; height: 100%; border-radius: 999px; background: var(--income)"></div></div>
+      </div>
+    </div>
+  </sc-for>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1200,"height":900}}'>
+class Component extends DCLogic {
+  renderVals() {
+    const swatches = [
+      { n: 'background', v: 'var(--bg)' }, { n: 'card', v: 'var(--card)' }, { n: 'muted', v: 'var(--muted)' },
+      { n: 'border', v: 'var(--border)' }, { n: 'foreground', v: 'var(--fg)' }, { n: 'muted-fg', v: 'var(--mfg)' },
+      { n: 'primary', v: 'var(--primary)' }, { n: 'secondary', v: 'var(--sec)' }, { n: 'income', v: 'var(--income)' },
+      { n: 'expense', v: 'var(--expense)' }, { n: 'transfer', v: 'var(--transfer)' }, { n: 'warning', v: 'var(--warning)' }
+    ];
+    return {
+      swatches: swatches,
+      themes: [{ cls: 't-light', name: 'Світла тема' }, { cls: 't-dark', name: 'Темна тема' }]
+    };
+  }
+}
+</script>
+</body>
+</html>

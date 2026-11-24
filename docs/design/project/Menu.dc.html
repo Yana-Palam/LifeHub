@@ -1,0 +1,119 @@
+<!doctype html>
+<html lang="uk">
+<head>
+<meta charset="utf-8">
+<title>LifeHub — тижневе меню</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&amp;display=swap">
+<style>
+body{margin:0}
+a{color:inherit;text-decoration:none}a:hover{color:inherit}
+.t-light{--bg:#F3F6F4;--fg:#0E1A16;--card:#FFFFFF;--muted:#EDF1EF;--mfg:#56665F;--border:#DFE6E2;--input:#D3DCD8;--primary:#047857;--pfg:#FFFFFF;--sec:#E6F4EE;--secfg:#065F46;--shadow:0 1px 2px rgba(14,26,22,.06),0 4px 16px rgba(14,26,22,.06);--c1:#059669;--c3:#D97706;--c4:#7C3AED;--c6:#0891B2}
+.t-dark{--bg:#0A110F;--fg:#E7F0EC;--card:#121B18;--muted:#18221F;--mfg:#97AAA3;--border:#24322D;--input:#2C3B36;--primary:#34D399;--pfg:#04271C;--sec:#1A2925;--secfg:#A7F3D0;--shadow:none;--c1:#34D399;--c3:#FBBF24;--c4:#A78BFA;--c6:#22D3EE}
+</style>
+</helmet>
+<div class="{{theme}}" style="width: 390px; height: 844px; position: relative; overflow: hidden; display: flex; flex-direction: column; background: var(--bg); color: var(--fg); font-family: Manrope, system-ui, sans-serif; font-variant-numeric: tabular-nums">
+  <div style="flex: 1 1 auto; overflow-y: auto; padding: 16px 16px 16px; display: flex; flex-direction: column; gap: 14px">
+    <header style="display: flex; flex-direction: column; gap: 12px; padding-top: 8px">
+      <div style="display: flex; align-items: center; justify-content: space-between">
+        <h1 style="margin: 0; font-size: 28px; line-height: 34px; font-weight: 800">Меню</h1>
+        <a href="Recipe.dc.html" style="height: 40px; padding: 0 14px; border-radius: 999px; background: var(--card); border: 1px solid var(--border); display: flex; align-items: center; font-size: 13px; font-weight: 700">Кулінарна книга</a>
+      </div>
+      <div style="display: flex; align-items: center; justify-content: space-between">
+        <button type="button" aria-label="Попередній тиждень" style="width: 44px; height: 44px; border-radius: 999px; border: 1px solid var(--border); background: var(--card); color: var(--fg); display: flex; align-items: center; justify-content: center">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m15 18-6-6 6-6"></path></svg>
+        </button>
+        <span style="font-size: 15px; font-weight: 800">23 – 29 листопада</span>
+        <button type="button" aria-label="Наступний тиждень" style="width: 44px; height: 44px; border-radius: 999px; border: 1px solid var(--border); background: var(--card); color: var(--fg); display: flex; align-items: center; justify-content: center">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m9 18 6-6-6-6"></path></svg>
+        </button>
+      </div>
+    </header>
+
+    <div role="tablist" aria-label="Дні тижня" style="display: grid; grid-template-columns: repeat(7, minmax(0, 1fr)); gap: 4px">
+      <sc-for list="{{days}}" as="d" hint-placeholder-count="7">
+        <button type="button" role="tab" aria-selected="{{d.selected}}" onClick="{{d.pick}}" style="height: 64px; border-radius: 14px; font-family: inherit; cursor: pointer; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 2px; {{d.style}}">
+          <span style="font-size: 12px; font-weight: 700">{{d.short}}</span>
+          <span style="font-size: 17px; font-weight: 800">{{d.num}}</span>
+          <span style="font-size: 12px; font-weight: 700; opacity: .8">{{d.count}}</span>
+        </button>
+      </sc-for>
+    </div>
+
+    <h2 style="margin: 4px 4px 0; font-size: 16px; font-weight: 800">{{dayTitle}}</h2>
+
+    <sc-for list="{{meals}}" as="m" hint-placeholder-count="4">
+      <section style="display: flex; flex-direction: column; gap: 8px">
+        <span style="font-size: 12px; font-weight: 800; letter-spacing: .4px; text-transform: uppercase; color: var(--mfg); padding: 0 4px">{{m.label}}</span>
+        <sc-if value="{{m.has}}" hint-placeholder-val="{{yes}}">
+          <a href="Recipe.dc.html" style="background: var(--card); border-radius: 18px; box-shadow: var(--shadow); padding: 12px; display: flex; gap: 12px; align-items: center">
+            <span style="width: 48px; height: 48px; border-radius: 14px; flex: 0 0 auto; background: {{m.tint}}"></span>
+            <div style="flex: 1 1 auto; min-width: 0; display: flex; flex-direction: column; gap: 2px">
+              <span style="font-size: 15px; font-weight: 700">{{m.dish}}</span>
+              <span style="font-size: 12px; font-weight: 600; color: var(--mfg)">{{m.time}}</span>
+            </div>
+            <span style="height: 32px; padding: 0 10px; border-radius: 999px; background: var(--sec); color: var(--secfg); display: flex; align-items: center; font-size: 12px; font-weight: 800; white-space: nowrap">{{m.servings}}</span>
+          </a>
+        </sc-if>
+        <sc-if value="{{m.empty}}" hint-placeholder-val="{{no}}">
+          <button type="button" style="height: 56px; border-radius: 18px; border: 1.5px dashed var(--input); background: transparent; color: var(--mfg); font-family: inherit; font-size: 14px; font-weight: 700; display: flex; align-items: center; justify-content: center; gap: 8px; cursor: pointer">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 5v14"></path><path d="M5 12h14"></path></svg>
+            Додати страву
+          </button>
+        </sc-if>
+      </section>
+    </sc-for>
+  </div>
+
+  <div style="padding: 8px 16px 12px; background: var(--bg)">
+    <a href="Shopping.dc.html" style="height: 52px; border-radius: 14px; background: var(--primary); color: var(--pfg); display: flex; flex-direction: column; align-items: center; justify-content: center">
+      <span style="font-size: 15px; font-weight: 800">Сформувати список покупок</span>
+      <span style="font-size: 12px; font-weight: 600; opacity: .85">з меню на 23 – 29 листопада</span>
+    </a>
+  </div>
+  <dc-import name="BottomNav" active="food" dark="{{dark}}" hint-size="390px,96px"></dc-import>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"dark":{"editor":"boolean","default":false,"section":"Тема"},"$preview":{"width":390,"height":844}}'>
+class Component extends DCLogic {
+  constructor(props) {
+    super(props);
+    this.state = { day: 1 };
+  }
+  renderVals() {
+    const dark = this.props.dark ?? false;
+    const tint = (c) => 'color-mix(in srgb, ' + c + ' 22%, transparent)';
+    const plan = [
+      { short: 'Пн', num: 23, title: 'Понеділок, 23 листопада', meals: [['Вівсянка з ягодами', '15 хв', 2, 'var(--c6)'], ['Курячий суп з локшиною', '50 хв', 4, 'var(--c3)'], ['Гречка з грибами', '35 хв', 2, 'var(--c4)'], null] },
+      { short: 'Вт', num: 24, title: 'Сьогодні, вівторок, 24 листопада', meals: [['Сирники зі сметаною', '25 хв', 2, 'var(--c3)'], ['Борщ український', '1 год 30 хв', 4, 'var(--c1)'], ['Курка з овочами в духовці', '50 хв', 2, 'var(--c4)'], ['Гранола з йогуртом', '5 хв', 1, 'var(--c6)']] },
+      { short: 'Ср', num: 25, title: 'Середа, 25 листопада', meals: [['Омлет з овочами', '15 хв', 2, 'var(--c3)'], ['Борщ український', '1 год 30 хв', 4, 'var(--c1)'], ['Паста з тунцем', '25 хв', 2, 'var(--c4)'], ['Яблука з горіховою пастою', '5 хв', 1, 'var(--c6)']] },
+      { short: 'Чт', num: 26, title: 'Четвер, 26 листопада', meals: [['Вівсянка з ягодами', '15 хв', 2, 'var(--c6)'], null, ['Деруни зі сметаною', '40 хв', 3, 'var(--c3)'], null] },
+      { short: 'Пт', num: 27, title: 'Пʼятниця, 27 листопада', meals: [null, null, null, null] },
+      { short: 'Сб', num: 28, title: 'Субота, 28 листопада', meals: [null, null, null, null] },
+      { short: 'Нд', num: 29, title: 'Неділя, 29 листопада', meals: [null, null, null, null] }
+    ];
+    const labels = ['Сніданок', 'Обід', 'Вечеря', 'Перекус'];
+    const cur = plan[this.state.day];
+    const days = plan.map((d, i) => {
+      const n = d.meals.filter(Boolean).length;
+      const sel = i === this.state.day;
+      return {
+        short: d.short, num: d.num, count: n ? n + ' стр.' : '—',
+        selected: sel ? 'true' : 'false',
+        style: sel ? 'border: 0; background: var(--primary); color: var(--pfg)' : 'border: 1px solid var(--border); background: var(--card); color: var(--fg)',
+        pick: () => this.setState({ day: i })
+      };
+    });
+    const meals = cur.meals.map((m, i) => m
+      ? { label: labels[i], has: true, empty: false, dish: m[0], time: m[1], servings: m[2] + ' порц.', tint: tint(m[3]) }
+      : { label: labels[i], has: false, empty: true, dish: '', time: '', servings: '', tint: 'transparent' });
+    return { dark: dark, theme: dark ? 't-dark' : 't-light', days: days, meals: meals, dayTitle: cur.title, yes: true, no: false };
+  }
+}
+</script>
+</body>
+</html>

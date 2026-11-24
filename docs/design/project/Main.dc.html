@@ -1,0 +1,150 @@
+<!doctype html>
+<html lang="uk">
+<head>
+<meta charset="utf-8">
+<title>LifeHub — Dashboard</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&amp;display=swap">
+<style>
+body{margin:0}
+a{color:inherit;text-decoration:none}a:hover{color:inherit}
+.t-light{--bg:#F3F6F4;--fg:#0E1A16;--card:#FFFFFF;--muted:#EDF1EF;--mfg:#56665F;--border:#DFE6E2;--input:#D3DCD8;--primary:#047857;--pfg:#FFFFFF;--sec:#E6F4EE;--secfg:#065F46;--income:#047857;--expense:#BE123C;--transfer:#1D4ED8;--warning:#B45309;--warnsoft:#FEF3C7;--oksoft:#D1FAE5;--exsoft:#FFE4E6;--plan:#94A3A0;--hero:linear-gradient(135deg,#047857 0%,#0F766E 55%,#0E7490 100%);--shadow:0 1px 2px rgba(14,26,22,.06),0 4px 16px rgba(14,26,22,.06);--c1:#059669;--c2:#2563EB;--c3:#D97706;--c4:#7C3AED;--c5:#DB2777;--c6:#0891B2;--c7:#94A3B8}
+.t-dark{--bg:#0A110F;--fg:#E7F0EC;--card:#121B18;--muted:#18221F;--mfg:#97AAA3;--border:#24322D;--input:#2C3B36;--primary:#34D399;--pfg:#04271C;--sec:#1A2925;--secfg:#A7F3D0;--income:#34D399;--expense:#FB7185;--transfer:#60A5FA;--warning:#FBBF24;--warnsoft:#3A2C0B;--oksoft:#0F3328;--exsoft:#3B1620;--plan:#5E706A;--hero:linear-gradient(135deg,#065F46 0%,#115E59 55%,#155E75 100%);--shadow:none;--c1:#34D399;--c2:#60A5FA;--c3:#FBBF24;--c4:#A78BFA;--c5:#F472B6;--c6:#22D3EE;--c7:#64748B}
+</style>
+</helmet>
+<div class="{{theme}}" style="width: 390px; height: 844px; position: relative; overflow: hidden; display: flex; flex-direction: column; background: var(--bg); color: var(--fg); font-family: Manrope, system-ui, sans-serif; font-variant-numeric: tabular-nums">
+  <div style="flex: 1 1 auto; overflow-y: auto; padding: 16px 16px 24px; display: flex; flex-direction: column; gap: 16px">
+
+    <header style="display: flex; align-items: center; justify-content: space-between; padding-top: 8px">
+      <div style="display: flex; flex-direction: column; gap: 2px">
+        <span style="font-size: 13px; font-weight: 600; color: var(--mfg)">Вівторок, 24 листопада</span>
+        <h1 style="margin: 0; font-size: 28px; line-height: 34px; font-weight: 800">Головна</h1>
+      </div>
+      <button type="button" aria-label="Сповіщення" style="width: 44px; height: 44px; border-radius: 999px; border: 1px solid var(--border); background: var(--card); color: var(--fg); display: flex; align-items: center; justify-content: center; cursor: pointer">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 8a6 6 0 1 1 12 0c0 7 3 8 3 8H3s3-1 3-8"></path><path d="M10 20a2 2 0 0 0 4 0"></path></svg>
+      </button>
+    </header>
+
+    <section style="background: var(--hero); color: #FFFFFF; border-radius: 24px; padding: 20px; display: flex; flex-direction: column; gap: 16px">
+      <div style="display: flex; justify-content: space-between; align-items: center">
+        <span style="font-size: 14px; font-weight: 600; color: rgba(255,255,255,.85)">Загальний баланс</span>
+        <span style="font-size: 12px; font-weight: 700; padding: 4px 10px; border-radius: 999px; background: rgba(255,255,255,.18)">3 рахунки</span>
+      </div>
+      <div style="font-size: 40px; line-height: 44px; font-weight: 800; letter-spacing: -0.5px">48 320,50 ₴</div>
+      <div style="display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px">
+        <div style="background: rgba(255,255,255,.14); border-radius: 16px; padding: 10px 12px; display: flex; flex-direction: column; gap: 2px">
+          <span style="font-size: 12px; font-weight: 600; color: rgba(255,255,255,.85)">↓ Доходи · листопад</span>
+          <span style="font-size: 17px; font-weight: 800">+62 000,00 ₴</span>
+        </div>
+        <div style="background: rgba(255,255,255,.14); border-radius: 16px; padding: 10px 12px; display: flex; flex-direction: column; gap: 2px">
+          <span style="font-size: 12px; font-weight: 600; color: rgba(255,255,255,.85)">↑ Витрати · листопад</span>
+          <span style="font-size: 17px; font-weight: 800">−31 845,20 ₴</span>
+        </div>
+      </div>
+    </section>
+
+    <section role="alert" style="background: var(--warnsoft); color: var(--fg); border-radius: 16px; padding: 12px 14px; display: flex; gap: 12px; align-items: flex-start">
+      <span style="color: var(--warning); display: flex; padding-top: 1px">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3 2 21h20L12 3z"></path><path d="M12 10v5"></path><path d="M12 18h.01"></path></svg>
+      </span>
+      <div style="display: flex; flex-direction: column; gap: 2px">
+        <span style="font-size: 14px; font-weight: 700">Кафе і ресторани — бюджет перевищено</span>
+        <span style="font-size: 13px; font-weight: 500; color: var(--mfg)">Витрачено 4 920 ₴ з 4 000 ₴ (+920 ₴)</span>
+      </div>
+    </section>
+
+    <a href="Budget.dc.html" style="background: var(--card); border-radius: 20px; padding: 16px; box-shadow: var(--shadow); display: flex; flex-direction: column; gap: 10px">
+      <div style="display: flex; justify-content: space-between; align-items: baseline">
+        <span style="font-size: 16px; font-weight: 700">Бюджет листопада</span>
+        <span style="font-size: 13px; font-weight: 700; color: var(--income)">76 %</span>
+      </div>
+      <div style="display: flex; align-items: baseline; gap: 6px">
+        <span style="font-size: 22px; font-weight: 800">10 154,80 ₴</span>
+        <span style="font-size: 13px; font-weight: 500; color: var(--mfg)">залишок з 42 000 ₴</span>
+      </div>
+      <div style="height: 8px; border-radius: 999px; background: var(--muted); overflow: hidden">
+        <div style="width: 76%; height: 100%; border-radius: 999px; background: var(--income)"></div>
+      </div>
+      <span style="font-size: 13px; font-weight: 500; color: var(--mfg)">7 днів до кінця місяця · ≈ 1 450 ₴ на день</span>
+    </a>
+
+    <section style="background: var(--card); border-radius: 20px; padding: 16px; box-shadow: var(--shadow); display: flex; flex-direction: column; gap: 12px">
+      <span style="font-size: 16px; font-weight: 700">Витрати за категоріями</span>
+      <div style="display: flex; gap: 16px; align-items: center">
+        <svg width="112" height="112" viewBox="0 0 112 112" role="img" aria-label="Кільцева діаграма витрат за категоріями">
+          <g transform="rotate(-90 56 56)" fill="none" stroke-width="14">
+            <circle cx="56" cy="56" r="42" stroke="var(--c1)" stroke-dasharray="103.4 263.9" stroke-dashoffset="0"></circle>
+            <circle cx="56" cy="56" r="42" stroke="var(--c2)" stroke-dasharray="51.7 263.9" stroke-dashoffset="-103.4"></circle>
+            <circle cx="56" cy="56" r="42" stroke="var(--c3)" stroke-dasharray="40.6 263.9" stroke-dashoffset="-155.1"></circle>
+            <circle cx="56" cy="56" r="42" stroke="var(--c4)" stroke-dasharray="26.1 263.9" stroke-dashoffset="-195.7"></circle>
+            <circle cx="56" cy="56" r="42" stroke="var(--c7)" stroke-dasharray="42.0 263.9" stroke-dashoffset="-221.8"></circle>
+          </g>
+        </svg>
+        <div style="flex: 1 1 auto; display: flex; flex-direction: column; gap: 8px; font-size: 13px; font-weight: 600">
+          <div style="display: flex; align-items: center; gap: 8px"><span style="width: 10px; height: 10px; border-radius: 999px; background: var(--c1)"></span><span style="flex: 1 1 auto">Продукти</span><span>39 %</span></div>
+          <div style="display: flex; align-items: center; gap: 8px"><span style="width: 10px; height: 10px; border-radius: 999px; background: var(--c2)"></span><span style="flex: 1 1 auto">Комунальні</span><span>20 %</span></div>
+          <div style="display: flex; align-items: center; gap: 8px"><span style="width: 10px; height: 10px; border-radius: 999px; background: var(--c3)"></span><span style="flex: 1 1 auto">Кафе</span><span>15 %</span></div>
+          <div style="display: flex; align-items: center; gap: 8px"><span style="width: 10px; height: 10px; border-radius: 999px; background: var(--c4)"></span><span style="flex: 1 1 auto">Транспорт</span><span>10 %</span></div>
+          <div style="display: flex; align-items: center; gap: 8px"><span style="width: 10px; height: 10px; border-radius: 999px; background: var(--c7)"></span><span style="flex: 1 1 auto">Інше</span><span>16 %</span></div>
+        </div>
+      </div>
+    </section>
+
+    <a href="Menu.dc.html" style="background: var(--card); border-radius: 20px; padding: 16px; box-shadow: var(--shadow); display: flex; flex-direction: column; gap: 12px">
+      <div style="display: flex; justify-content: space-between; align-items: baseline">
+        <span style="font-size: 16px; font-weight: 700">Меню на сьогодні</span>
+        <span style="font-size: 13px; font-weight: 700; color: var(--primary)">Увесь тиждень →</span>
+      </div>
+      <div style="display: flex; flex-direction: column; gap: 10px">
+        <div style="display: flex; gap: 12px; align-items: center"><span style="width: 72px; font-size: 12px; font-weight: 700; color: var(--mfg)">Сніданок</span><span style="flex: 1 1 auto; font-size: 14px; font-weight: 600">Сирники зі сметаною</span><span style="font-size: 12px; font-weight: 600; color: var(--mfg)">2 порц.</span></div>
+        <div style="display: flex; gap: 12px; align-items: center"><span style="width: 72px; font-size: 12px; font-weight: 700; color: var(--mfg)">Обід</span><span style="flex: 1 1 auto; font-size: 14px; font-weight: 600">Борщ український</span><span style="font-size: 12px; font-weight: 600; color: var(--mfg)">4 порц.</span></div>
+        <div style="display: flex; gap: 12px; align-items: center"><span style="width: 72px; font-size: 12px; font-weight: 700; color: var(--mfg)">Вечеря</span><span style="flex: 1 1 auto; font-size: 14px; font-weight: 600">Курка з овочами в духовці</span><span style="font-size: 12px; font-weight: 600; color: var(--mfg)">2 порц.</span></div>
+        <div style="display: flex; gap: 12px; align-items: center"><span style="width: 72px; font-size: 12px; font-weight: 700; color: var(--mfg)">Перекус</span><span style="flex: 1 1 auto; font-size: 14px; font-weight: 600">Гранола з йогуртом</span><span style="font-size: 12px; font-weight: 600; color: var(--mfg)">1 порц.</span></div>
+      </div>
+    </a>
+
+    <section style="background: var(--card); border-radius: 20px; padding: 16px; box-shadow: var(--shadow); display: flex; flex-direction: column; gap: 14px">
+      <span style="font-size: 16px; font-weight: 700">Цілі</span>
+      <div style="display: flex; flex-direction: column; gap: 6px">
+        <div style="display: flex; justify-content: space-between; font-size: 14px; font-weight: 600"><span>Відпустка в Карпатах</span><span>62 %</span></div>
+        <div style="height: 8px; border-radius: 999px; background: var(--muted); overflow: hidden"><div style="width: 62%; height: 100%; border-radius: 999px; background: var(--c6)"></div></div>
+        <span style="font-size: 12px; font-weight: 600; color: var(--mfg)">18 500 ₴ з 30 000 ₴</span>
+      </div>
+      <div style="display: flex; flex-direction: column; gap: 6px">
+        <div style="display: flex; justify-content: space-between; font-size: 14px; font-weight: 600"><span>Подушка безпеки</span><span>45 %</span></div>
+        <div style="height: 8px; border-radius: 999px; background: var(--muted); overflow: hidden"><div style="width: 45%; height: 100%; border-radius: 999px; background: var(--c2)"></div></div>
+        <span style="font-size: 12px; font-weight: 600; color: var(--mfg)">54 000 ₴ з 120 000 ₴</span>
+      </div>
+    </section>
+
+    <section style="background: var(--card); border-radius: 20px; padding: 16px; box-shadow: var(--shadow); display: flex; gap: 12px; align-items: center">
+      <span style="width: 40px; height: 40px; border-radius: 999px; background: var(--sec); color: var(--secfg); display: flex; align-items: center; justify-content: center; flex: 0 0 auto">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="5" width="18" height="16" rx="3"></rect><path d="M3 10h18"></path><path d="M8 3v4"></path><path d="M16 3v4"></path></svg>
+      </span>
+      <div style="flex: 1 1 auto; display: flex; flex-direction: column; gap: 2px">
+        <span style="font-size: 14px; font-weight: 700">Пральна машина</span>
+        <span style="font-size: 12px; font-weight: 600; color: var(--mfg)">Велика покупка · до 15.01.2027</span>
+      </div>
+      <div style="display: flex; flex-direction: column; align-items: flex-end; gap: 2px">
+        <span style="font-size: 14px; font-weight: 800; color: var(--mfg)">≈ 18 000 ₴</span>
+        <span style="font-size: 12px; font-weight: 700; letter-spacing: .4px; text-transform: uppercase; color: var(--plan)">план</span>
+      </div>
+    </section>
+  </div>
+  <dc-import name="BottomNav" active="home" dark="{{dark}}" hint-size="390px,96px"></dc-import>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"dark":{"editor":"boolean","default":false,"section":"Тема"},"$preview":{"width":390,"height":844}}'>
+class Component extends DCLogic {
+  renderVals() {
+    const dark = this.props.dark ?? false;
+    return { dark: dark, theme: dark ? 't-dark' : 't-light' };
+  }
+}
+</script>
+</body>
+</html>
