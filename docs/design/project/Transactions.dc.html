@@ -11,14 +11,21 @@
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&amp;display=swap">
 <style>
 body{margin:0}
+@keyframes lh-rise{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
+.lh-stagger>*{animation:lh-rise 500ms cubic-bezier(.22,1,.36,1) both}
+.lh-stagger>*:nth-child(2){animation-delay:50ms}.lh-stagger>*:nth-child(3){animation-delay:100ms}.lh-stagger>*:nth-child(4){animation-delay:150ms}.lh-stagger>*:nth-child(5){animation-delay:200ms}.lh-stagger>*:nth-child(6){animation-delay:250ms}.lh-stagger>*:nth-child(n+7){animation-delay:300ms}
+button,a{transition:transform 220ms cubic-bezier(.32,.72,0,1),background-color 220ms ease,color 220ms ease,box-shadow 220ms ease}
+button:active,a:active{transform:scale(.97)}
+@media (prefers-reduced-motion:reduce){*,*::before,*::after{animation:none!important;transition:none!important}}
+@media (prefers-reduced-transparency:reduce){[style*="backdrop-filter"]{-webkit-backdrop-filter:none!important;backdrop-filter:none!important;background:var(--card)!important}}
 a{color:inherit;text-decoration:none}a:hover{color:inherit}
-.t-light{--bg:#F3F6F4;--fg:#0E1A16;--card:#FFFFFF;--muted:#EDF1EF;--mfg:#56665F;--border:#DFE6E2;--input:#D3DCD8;--primary:#047857;--pfg:#FFFFFF;--sec:#E6F4EE;--secfg:#065F46;--income:#047857;--expense:#BE123C;--transfer:#1D4ED8;--shadow:0 1px 2px rgba(14,26,22,.06),0 4px 16px rgba(14,26,22,.06);--c1:#059669;--c2:#2563EB;--c3:#D97706;--c4:#7C3AED;--c5:#DB2777;--c6:#0891B2;--c7:#94A3B8}
-.t-dark{--bg:#0A110F;--fg:#E7F0EC;--card:#121B18;--muted:#18221F;--mfg:#97AAA3;--border:#24322D;--input:#2C3B36;--primary:#34D399;--pfg:#04271C;--sec:#1A2925;--secfg:#A7F3D0;--income:#34D399;--expense:#FB7185;--transfer:#60A5FA;--shadow:none;--c1:#34D399;--c2:#60A5FA;--c3:#FBBF24;--c4:#A78BFA;--c5:#F472B6;--c6:#22D3EE;--c7:#64748B}
+.t-light{--bg:#F3F6F4;--ambient:radial-gradient(70% 45% at 0% 0%,rgba(16,185,129,.20),transparent 70%),radial-gradient(60% 40% at 100% 15%,rgba(14,116,144,.16),transparent 70%),#F3F6F4;--glass:rgba(255,255,255,.62);--glass-border:rgba(255,255,255,.65);--fg:#0E1A16;--card:#FFFFFF;--muted:#EDF1EF;--mfg:#56665F;--border:#DFE6E2;--input:#D3DCD8;--primary:#047857;--pfg:#FFFFFF;--sec:#E6F4EE;--secfg:#065F46;--income:#047857;--expense:#BE123C;--transfer:#1D4ED8;--shadow:0 1px 2px rgba(14,26,22,.06),0 4px 16px rgba(14,26,22,.06);--c1:#059669;--c2:#2563EB;--c3:#D97706;--c4:#7C3AED;--c5:#DB2777;--c6:#0891B2;--c7:#94A3B8}
+.t-dark{--bg:#0A110F;--ambient:radial-gradient(70% 45% at 0% 0%,rgba(52,211,153,.14),transparent 70%),radial-gradient(60% 40% at 100% 15%,rgba(34,211,238,.10),transparent 70%),#0A110F;--glass:rgba(24,36,32,.55);--glass-border:rgba(255,255,255,.08);--fg:#E7F0EC;--card:#121B18;--muted:#18221F;--mfg:#97AAA3;--border:#24322D;--input:#2C3B36;--primary:#34D399;--pfg:#04271C;--sec:#1A2925;--secfg:#A7F3D0;--income:#34D399;--expense:#FB7185;--transfer:#60A5FA;--shadow:none;--c1:#34D399;--c2:#60A5FA;--c3:#FBBF24;--c4:#A78BFA;--c5:#F472B6;--c6:#22D3EE;--c7:#64748B}
 </style>
 </helmet>
-<div class="{{theme}}" style="width: 390px; height: 844px; position: relative; overflow: hidden; display: flex; flex-direction: column; background: var(--bg); color: var(--fg); font-family: Manrope, system-ui, sans-serif; font-variant-numeric: tabular-nums">
-  <div style="flex: 1 1 auto; overflow-y: auto; padding: 16px 16px 24px; display: flex; flex-direction: column; gap: 14px">
-    <header style="display: flex; flex-direction: column; gap: 12px; padding-top: 8px">
+<div class="{{theme}}" style="width: 390px; height: 844px; position: relative; overflow: hidden; display: flex; flex-direction: column; background: var(--ambient); color: var(--fg); font-family: Manrope, system-ui, sans-serif; font-variant-numeric: tabular-nums">
+  <div class="lh-stagger" style="flex: 1 1 auto; overflow-y: auto; padding: 16px 16px 120px; display: flex; flex-direction: column; gap: 14px">
+    <header style="position: sticky; top: 0; z-index: 5; margin: -16px -16px 0; padding: 20px 16px 12px; display: flex; flex-direction: column; gap: 12px; background: var(--glass); -webkit-backdrop-filter: blur(24px) saturate(180%); backdrop-filter: blur(24px) saturate(180%); border-bottom: 1px solid var(--glass-border)">
       <h1 style="margin: 0; font-size: 28px; line-height: 34px; font-weight: 800">Фінанси</h1>
       <nav aria-label="Розділи фінансів" style="display: flex; gap: 8px; overflow-x: auto">
         <a href="Transactions.dc.html" aria-current="page" style="height: 36px; padding: 0 14px; border-radius: 999px; background: var(--fg); color: var(--bg); display: flex; align-items: center; font-size: 13px; font-weight: 700; flex: 0 0 auto">Операції</a>
@@ -72,7 +79,9 @@ a{color:inherit;text-decoration:none}a:hover{color:inherit}
       </section>
     </sc-for>
   </div>
-  <dc-import name="BottomNav" active="finance" dark="{{dark}}" hint-size="390px,96px"></dc-import>
+  <div style="position: absolute; left: 0; right: 0; bottom: 0; z-index: 10">
+    <dc-import name="BottomNav" active="finance" dark="{{dark}}" hint-size="390px,96px"></dc-import>
+  </div>
 </div>
 </x-dc>
 <script type="text/x-dc" data-dc-script data-props='{"dark":{"editor":"boolean","default":false,"section":"Тема"},"$preview":{"width":390,"height":844}}'>

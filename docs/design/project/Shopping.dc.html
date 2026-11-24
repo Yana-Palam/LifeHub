@@ -11,14 +11,24 @@
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&amp;display=swap">
 <style>
 body{margin:0}
+@keyframes lh-rise{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:none}}
+@keyframes lh-grow{from{transform:scaleX(0)}to{transform:scaleX(1)}}
+.lh-stagger>*{animation:lh-rise 500ms cubic-bezier(.22,1,.36,1) both}
+.lh-stagger>*:nth-child(2){animation-delay:50ms}.lh-stagger>*:nth-child(3){animation-delay:100ms}.lh-stagger>*:nth-child(4){animation-delay:150ms}.lh-stagger>*:nth-child(5){animation-delay:200ms}.lh-stagger>*:nth-child(6){animation-delay:250ms}.lh-stagger>*:nth-child(n+7){animation-delay:300ms}
+.lh-stagger div[style*="height: 100%"][style*="border-radius: 999px"]{transform-origin:left center;animation:lh-grow 800ms cubic-bezier(.22,1,.36,1) 250ms both;transition:width 400ms cubic-bezier(.22,1,.36,1)}
+button,a,label{transition:transform 220ms cubic-bezier(.32,.72,0,1),background-color 220ms ease,color 220ms ease,box-shadow 220ms ease}
+button:active,a:active{transform:scale(.97)}
+label span{transition:opacity 250ms ease}
+@media (prefers-reduced-motion:reduce){*,*::before,*::after{animation:none!important;transition:none!important}}
+@media (prefers-reduced-transparency:reduce){[style*="backdrop-filter"]{-webkit-backdrop-filter:none!important;backdrop-filter:none!important;background:var(--card)!important}}
 a{color:inherit;text-decoration:none}a:hover{color:inherit}
-.t-light{--bg:#F3F6F4;--fg:#0E1A16;--card:#FFFFFF;--muted:#EDF1EF;--mfg:#56665F;--border:#DFE6E2;--input:#D3DCD8;--primary:#047857;--pfg:#FFFFFF;--sec:#E6F4EE;--secfg:#065F46;--plan:#94A3A0;--shadow:0 1px 2px rgba(14,26,22,.06),0 4px 16px rgba(14,26,22,.06)}
-.t-dark{--bg:#0A110F;--fg:#E7F0EC;--card:#121B18;--muted:#18221F;--mfg:#97AAA3;--border:#24322D;--input:#2C3B36;--primary:#34D399;--pfg:#04271C;--sec:#1A2925;--secfg:#A7F3D0;--plan:#5E706A;--shadow:none}
+.t-light{--bg:#F3F6F4;--ambient:radial-gradient(70% 45% at 0% 0%,rgba(16,185,129,.20),transparent 70%),radial-gradient(60% 40% at 100% 15%,rgba(14,116,144,.16),transparent 70%),#F3F6F4;--glass:rgba(255,255,255,.62);--glass-border:rgba(255,255,255,.65);--fg:#0E1A16;--card:#FFFFFF;--muted:#EDF1EF;--mfg:#56665F;--border:#DFE6E2;--input:#D3DCD8;--primary:#047857;--pfg:#FFFFFF;--sec:#E6F4EE;--secfg:#065F46;--plan:#94A3A0;--shadow:0 1px 2px rgba(14,26,22,.06),0 4px 16px rgba(14,26,22,.06)}
+.t-dark{--bg:#0A110F;--ambient:radial-gradient(70% 45% at 0% 0%,rgba(52,211,153,.14),transparent 70%),radial-gradient(60% 40% at 100% 15%,rgba(34,211,238,.10),transparent 70%),#0A110F;--glass:rgba(24,36,32,.55);--glass-border:rgba(255,255,255,.08);--fg:#E7F0EC;--card:#121B18;--muted:#18221F;--mfg:#97AAA3;--border:#24322D;--input:#2C3B36;--primary:#34D399;--pfg:#04271C;--sec:#1A2925;--secfg:#A7F3D0;--plan:#5E706A;--shadow:none}
 </style>
 </helmet>
-<div class="{{theme}}" style="width: 390px; height: 844px; position: relative; overflow: hidden; display: flex; flex-direction: column; background: var(--bg); color: var(--fg); font-family: Manrope, system-ui, sans-serif; font-variant-numeric: tabular-nums">
-  <div style="flex: 1 1 auto; overflow-y: auto; padding: 16px 16px 16px; display: flex; flex-direction: column; gap: 14px">
-    <header style="display: flex; flex-direction: column; gap: 4px; padding-top: 8px">
+<div class="{{theme}}" style="width: 390px; height: 844px; position: relative; overflow: hidden; display: flex; flex-direction: column; background: var(--ambient); color: var(--fg); font-family: Manrope, system-ui, sans-serif; font-variant-numeric: tabular-nums">
+  <div class="lh-stagger" style="flex: 1 1 auto; overflow-y: auto; padding: 16px 16px 190px; display: flex; flex-direction: column; gap: 14px">
+    <header style="position: sticky; top: 0; z-index: 5; margin: -16px -16px 0; padding: 20px 16px 12px; display: flex; flex-direction: column; gap: 4px; background: var(--glass); -webkit-backdrop-filter: blur(24px) saturate(180%); backdrop-filter: blur(24px) saturate(180%); border-bottom: 1px solid var(--glass-border)">
       <span style="font-size: 13px; font-weight: 700; color: var(--mfg)">Покупки</span>
       <h1 style="margin: 0; font-size: 26px; line-height: 32px; font-weight: 800">Меню 23 – 29 листопада</h1>
     </header>
@@ -54,13 +64,15 @@ a{color:inherit;text-decoration:none}a:hover{color:inherit}
     <button type="button" style="height: 48px; border-radius: 14px; border: 1.5px dashed var(--input); background: transparent; color: var(--mfg); font-family: inherit; font-size: 14px; font-weight: 700">+ Додати товар</button>
   </div>
 
-  <div style="padding: 8px 16px 12px; background: var(--bg)">
+  <div style="position: absolute; left: 0; right: 0; bottom: 96px; z-index: 9; padding: 8px 16px 8px">
     <a href="Transactions.dc.html" style="height: 52px; border-radius: 14px; background: var(--primary); color: var(--pfg); display: flex; flex-direction: column; align-items: center; justify-content: center">
       <span style="font-size: 15px; font-weight: 800">Оформити покупку ({{done}})</span>
       <span style="font-size: 12px; font-weight: 600; opacity: .85">одна витрата на всю покупку</span>
     </a>
   </div>
-  <dc-import name="BottomNav" active="shopping" dark="{{dark}}" hint-size="390px,96px"></dc-import>
+  <div style="position: absolute; left: 0; right: 0; bottom: 0; z-index: 10">
+    <dc-import name="BottomNav" active="shopping" dark="{{dark}}" hint-size="390px,96px"></dc-import>
+  </div>
 </div>
 </x-dc>
 <script type="text/x-dc" data-dc-script data-props='{"dark":{"editor":"boolean","default":false,"section":"Тема"},"$preview":{"width":390,"height":844}}'>

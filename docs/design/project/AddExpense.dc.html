@@ -11,15 +11,23 @@
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&amp;display=swap">
 <style>
 body{margin:0}
+@keyframes lh-sheet{from{transform:translateY(100%)}to{transform:none}}
+@keyframes lh-fade{from{opacity:0}to{opacity:1}}
+.lh-sheet{animation:lh-sheet 520ms cubic-bezier(.32,.72,0,1) both}
+.lh-fade{animation:lh-fade 320ms ease-out both}
+button,a{transition:transform 220ms cubic-bezier(.32,.72,0,1),background-color 220ms ease,color 220ms ease,box-shadow 220ms ease,border-color 220ms ease}
+button:active,a:active{transform:scale(.96)}
+@media (prefers-reduced-motion:reduce){*,*::before,*::after{animation:none!important;transition:none!important}}
+@media (prefers-reduced-transparency:reduce){[style*="backdrop-filter"]{-webkit-backdrop-filter:none!important;backdrop-filter:none!important;background:var(--card)!important}}
 a{color:inherit;text-decoration:none}a:hover{color:inherit}
-.t-light{--bg:#F3F6F4;--fg:#0E1A16;--card:#FFFFFF;--muted:#EDF1EF;--mfg:#56665F;--border:#DFE6E2;--input:#D3DCD8;--primary:#047857;--pfg:#FFFFFF;--sec:#E6F4EE;--secfg:#065F46;--income:#047857;--expense:#BE123C;--transfer:#1D4ED8;--warning:#B45309;--warnsoft:#FEF3C7;--oksoft:#D1FAE5;--exsoft:#FFE4E6;--plan:#94A3A0;--c1:#059669;--c2:#2563EB;--c3:#D97706;--c4:#7C3AED;--c5:#DB2777;--c6:#0891B2;--c7:#94A3B8}
-.t-dark{--bg:#0A110F;--fg:#E7F0EC;--card:#121B18;--muted:#18221F;--mfg:#97AAA3;--border:#24322D;--input:#2C3B36;--primary:#34D399;--pfg:#04271C;--sec:#1A2925;--secfg:#A7F3D0;--income:#34D399;--expense:#FB7185;--transfer:#60A5FA;--warning:#FBBF24;--warnsoft:#3A2C0B;--oksoft:#0F3328;--exsoft:#3B1620;--plan:#5E706A;--c1:#34D399;--c2:#60A5FA;--c3:#FBBF24;--c4:#A78BFA;--c5:#F472B6;--c6:#22D3EE;--c7:#64748B}
+.t-light{--bg:#F3F6F4;--glass-strong:rgba(255,255,255,.80);--glass-border:rgba(255,255,255,.65);--fg:#0E1A16;--card:#FFFFFF;--muted:#EDF1EF;--mfg:#56665F;--border:#DFE6E2;--input:#D3DCD8;--primary:#047857;--pfg:#FFFFFF;--sec:#E6F4EE;--secfg:#065F46;--income:#047857;--expense:#BE123C;--transfer:#1D4ED8;--warning:#B45309;--warnsoft:#FEF3C7;--oksoft:#D1FAE5;--exsoft:#FFE4E6;--plan:#94A3A0;--c1:#059669;--c2:#2563EB;--c3:#D97706;--c4:#7C3AED;--c5:#DB2777;--c6:#0891B2;--c7:#94A3B8}
+.t-dark{--bg:#0A110F;--glass-strong:rgba(18,27,24,.78);--glass-border:rgba(255,255,255,.08);--fg:#E7F0EC;--card:#121B18;--muted:#18221F;--mfg:#97AAA3;--border:#24322D;--input:#2C3B36;--primary:#34D399;--pfg:#04271C;--sec:#1A2925;--secfg:#A7F3D0;--income:#34D399;--expense:#FB7185;--transfer:#60A5FA;--warning:#FBBF24;--warnsoft:#3A2C0B;--oksoft:#0F3328;--exsoft:#3B1620;--plan:#5E706A;--c1:#34D399;--c2:#60A5FA;--c3:#FBBF24;--c4:#A78BFA;--c5:#F472B6;--c6:#22D3EE;--c7:#64748B}
 </style>
 </helmet>
 <div class="{{theme}}" style="width: 390px; height: 844px; position: relative; overflow: hidden; font-family: Manrope, system-ui, sans-serif; font-variant-numeric: tabular-nums; color: var(--fg)">
   <dc-import name="Main" dark="{{dark}}" hint-size="390px,844px"></dc-import>
-  <a href="Main.dc.html" aria-label="Закрити" style="position: absolute; inset: 0; background: rgba(5,12,10,.55)"></a>
-  <section role="dialog" aria-label="Нова операція" style="position: absolute; left: 0; right: 0; bottom: 0; background: var(--card); border-radius: 28px 28px 0 0; padding: 12px 16px 24px; display: flex; flex-direction: column; gap: 16px">
+  <a href="Main.dc.html" aria-label="Закрити" class="lh-fade" style="position: absolute; inset: 0; z-index: 20; background: rgba(5,12,10,.35); -webkit-backdrop-filter: blur(6px); backdrop-filter: blur(6px)"></a>
+  <section role="dialog" aria-label="Нова операція" class="lh-sheet" style="position: absolute; left: 0; right: 0; bottom: 0; z-index: 30; background: var(--glass-strong); -webkit-backdrop-filter: blur(32px) saturate(180%); backdrop-filter: blur(32px) saturate(180%); border-top: 1px solid var(--glass-border); border-radius: 28px 28px 0 0; padding: 12px 16px 24px; display: flex; flex-direction: column; gap: 16px">
     <div style="width: 40px; height: 4px; border-radius: 999px; background: var(--input); align-self: center"></div>
     <div style="display: flex; justify-content: space-between; align-items: center">
       <h2 style="margin: 0; font-size: 20px; line-height: 28px; font-weight: 800">Нова операція</h2>

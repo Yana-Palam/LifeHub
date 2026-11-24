@@ -12,36 +12,44 @@
 <style>
 body{margin:0}
 a{color:inherit;text-decoration:none}a:hover{color:inherit}
-.t-light{--bg:#F3F6F4;--fg:#0E1A16;--card:#FFFFFF;--muted:#EDF1EF;--mfg:#56665F;--border:#DFE6E2;--primary:#047857;--pfg:#FFFFFF;--sec:#E6F4EE;--secfg:#065F46}
-.t-dark{--bg:#0A110F;--fg:#E7F0EC;--card:#121B18;--muted:#18221F;--mfg:#97AAA3;--border:#24322D;--primary:#34D399;--pfg:#04271C;--sec:#1A2925;--secfg:#A7F3D0}
+.t-light{--fg:#0E1A16;--card:#FFFFFF;--mfg:#56665F;--primary:#047857;--pfg:#FFFFFF;--sec:#E6F4EE;--secfg:#065F46;--glass-strong:rgba(255,255,255,.80);--glass-border:rgba(255,255,255,.65);--glass-shadow:0 8px 32px rgba(14,26,22,.14)}
+.t-dark{--fg:#E7F0EC;--card:#121B18;--mfg:#97AAA3;--primary:#34D399;--pfg:#04271C;--sec:#1A2925;--secfg:#A7F3D0;--glass-strong:rgba(18,27,24,.78);--glass-border:rgba(255,255,255,.08);--glass-shadow:0 8px 32px rgba(0,0,0,.45)}
+@keyframes lh-nav-in{from{opacity:0;transform:translateY(24px) scale(.96)}to{opacity:1;transform:none}}
+.lh-nav{animation:lh-nav-in 550ms cubic-bezier(.32,.72,0,1) 150ms both}
+.lh-nav a{transition:transform 220ms cubic-bezier(.32,.72,0,1),background-color 220ms ease,color 220ms ease}
+.lh-nav a:active{transform:scale(.94)}
+@media (prefers-reduced-motion:reduce){.lh-nav,.lh-nav a{animation:none!important;transition:none!important}}
+@media (prefers-reduced-transparency:reduce){.lh-nav [style*="backdrop-filter"]{-webkit-backdrop-filter:none!important;backdrop-filter:none!important;background:var(--card)!important}}
 </style>
 </helmet>
-<nav aria-label="Основна навігація" class="{{theme}}" style="width: 390px; height: 96px; box-sizing: border-box; padding: 8px 8px 20px; background: var(--card); border-top: 1px solid var(--border); display: grid; grid-template-columns: repeat(6, minmax(0, 1fr)); align-items: end; font-family: Manrope, system-ui, sans-serif; color: var(--mfg); position: relative">
-  <a href="Main.dc.html" aria-current="{{homeCurrent}}" style="height: 56px; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 4px; font-size: 12px; font-weight: 700; color: {{homeColor}}">
-    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 10.5 12 3l9 7.5"></path><path d="M5 9.5V21h14V9.5"></path></svg>
-    <span>Головна</span>
-  </a>
-  <a href="Transactions.dc.html" aria-current="{{finCurrent}}" style="height: 56px; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 4px; font-size: 12px; font-weight: 700; color: {{finColor}}">
-    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="6" width="18" height="14" rx="3"></rect><path d="M3 10h18"></path><path d="M16 15h.01"></path></svg>
-    <span>Фінанси</span>
-  </a>
-  <div style="height: 56px; display: flex; justify-content: center; align-items: flex-start">
-    <a href="AddExpense.dc.html" aria-label="Нова операція" style="width: 56px; height: 56px; margin-top: -22px; border-radius: 999px; background: var(--primary); color: var(--pfg); display: flex; align-items: center; justify-content: center; box-shadow: 0 6px 16px rgba(4,120,87,.35); border: 4px solid var(--card)">
-      <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 5v14"></path><path d="M5 12h14"></path></svg>
+<nav aria-label="Основна навігація" class="{{theme}}" style="width: 390px; height: 96px; box-sizing: border-box; padding: 0 12px 18px; display: flex; align-items: flex-end; font-family: Manrope, system-ui, sans-serif; color: var(--mfg)">
+  <div class="lh-nav" style="flex: 1 1 auto; height: 68px; box-sizing: border-box; padding: 6px; border-radius: 28px; background: var(--glass-strong); -webkit-backdrop-filter: blur(24px) saturate(180%); backdrop-filter: blur(24px) saturate(180%); border: 1px solid var(--glass-border); box-shadow: var(--glass-shadow); display: grid; grid-template-columns: repeat(6, minmax(0, 1fr)); align-items: center; gap: 2px">
+    <a href="Main.dc.html" aria-current="{{homeCurrent}}" style="height: 56px; border-radius: 22px; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 3px; font-size: 12px; font-weight: 700; color: {{homeColor}}; background: {{homeBg}}">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 10.5 12 3l9 7.5"></path><path d="M5 9.5V21h14V9.5"></path></svg>
+      <span>Головна</span>
+    </a>
+    <a href="Transactions.dc.html" aria-current="{{finCurrent}}" style="height: 56px; border-radius: 22px; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 3px; font-size: 12px; font-weight: 700; color: {{finColor}}; background: {{finBg}}">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="6" width="18" height="14" rx="3"></rect><path d="M3 10h18"></path><path d="M16 15h.01"></path></svg>
+      <span>Фінанси</span>
+    </a>
+    <div style="display: flex; justify-content: center">
+      <a href="AddExpense.dc.html" aria-label="Нова операція" style="width: 52px; height: 52px; border-radius: 999px; background: var(--primary); color: var(--pfg); display: flex; align-items: center; justify-content: center; box-shadow: 0 6px 18px rgba(4,120,87,.40)">
+        <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 5v14"></path><path d="M5 12h14"></path></svg>
+      </a>
+    </div>
+    <a href="Shopping.dc.html" aria-current="{{shopCurrent}}" style="height: 56px; border-radius: 22px; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 3px; font-size: 12px; font-weight: 700; color: {{shopColor}}; background: {{shopBg}}">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="9" cy="20" r="1.5"></circle><circle cx="18" cy="20" r="1.5"></circle><path d="M2 3h3l2.7 12.2a2 2 0 0 0 2 1.6h7.6a2 2 0 0 0 2-1.5L21 8H6"></path></svg>
+      <span>Покупки</span>
+    </a>
+    <a href="Menu.dc.html" aria-current="{{foodCurrent}}" style="height: 56px; border-radius: 22px; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 3px; font-size: 12px; font-weight: 700; color: {{foodColor}}; background: {{foodBg}}">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 3v18"></path><path d="M4 3v6a3 3 0 0 0 6 0V3"></path><path d="M17 21V3c-2.2 1.2-3.5 3.6-3.5 6.5V13H17"></path></svg>
+      <span>Їжа</span>
+    </a>
+    <a href="Budget.dc.html" aria-current="{{moreCurrent}}" style="height: 56px; border-radius: 22px; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 3px; font-size: 12px; font-weight: 700; color: {{moreColor}}; background: {{moreBg}}">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="5" cy="12" r="1.5"></circle><circle cx="12" cy="12" r="1.5"></circle><circle cx="19" cy="12" r="1.5"></circle></svg>
+      <span>Ще</span>
     </a>
   </div>
-  <a href="Shopping.dc.html" aria-current="{{shopCurrent}}" style="height: 56px; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 4px; font-size: 12px; font-weight: 700; color: {{shopColor}}">
-    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="9" cy="20" r="1.5"></circle><circle cx="18" cy="20" r="1.5"></circle><path d="M2 3h3l2.7 12.2a2 2 0 0 0 2 1.6h7.6a2 2 0 0 0 2-1.5L21 8H6"></path></svg>
-    <span>Покупки</span>
-  </a>
-  <a href="Menu.dc.html" aria-current="{{foodCurrent}}" style="height: 56px; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 4px; font-size: 12px; font-weight: 700; color: {{foodColor}}">
-    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M7 3v18"></path><path d="M4 3v6a3 3 0 0 0 6 0V3"></path><path d="M17 21V3c-2.2 1.2-3.5 3.6-3.5 6.5V13H17"></path></svg>
-    <span>Їжа</span>
-  </a>
-  <a href="Budget.dc.html" aria-current="{{moreCurrent}}" style="height: 56px; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 4px; font-size: 12px; font-weight: 700; color: {{moreColor}}">
-    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="5" cy="12" r="1.5"></circle><circle cx="12" cy="12" r="1.5"></circle><circle cx="19" cy="12" r="1.5"></circle></svg>
-    <span>Ще</span>
-  </a>
 </nav>
 </x-dc>
 <script type="text/x-dc" data-dc-script data-props='{"active":{"editor":"enum","options":["home","finance","shopping","food","more"],"default":"home"},"dark":{"editor":"boolean","default":false,"section":"Тема"},"$preview":{"width":390,"height":96}}'>
@@ -49,13 +57,13 @@ class Component extends DCLogic {
   renderVals() {
     const active = this.props.active ?? 'home';
     const dark = this.props.dark ?? false;
-    const on = 'var(--primary)';
-    const off = 'var(--mfg)';
-    const pick = (k) => (active === k ? on : off);
+    const col = (k) => (active === k ? 'var(--secfg)' : 'var(--mfg)');
+    const bg = (k) => (active === k ? 'var(--sec)' : 'transparent');
     const cur = (k) => (active === k ? 'page' : 'false');
     return {
       theme: dark ? 't-dark' : 't-light',
-      homeColor: pick('home'), finColor: pick('finance'), shopColor: pick('shopping'), foodColor: pick('food'), moreColor: pick('more'),
+      homeColor: col('home'), finColor: col('finance'), shopColor: col('shopping'), foodColor: col('food'), moreColor: col('more'),
+      homeBg: bg('home'), finBg: bg('finance'), shopBg: bg('shopping'), foodBg: bg('food'), moreBg: bg('more'),
       homeCurrent: cur('home'), finCurrent: cur('finance'), shopCurrent: cur('shopping'), foodCurrent: cur('food'), moreCurrent: cur('more')
     };
   }
