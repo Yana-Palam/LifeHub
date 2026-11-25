@@ -1,25 +1,341 @@
 @import "tailwindcss";
+@import "tw-animate-css";
 
-/* Тимчасові базові кольори. Повні токени світлої й темної теми — docs/DESIGN.md §2, день 2 roadmap. */
+/*
+ * Токени теми LifeHub — docs/DESIGN.md §2 (кольори), §4 (форми, скло), §6.1 (рух).
+ * :root — світла тема, .dark — темна (клас ставить next-themes на <html>).
+ * У компонентах — лише ці токени через утиліти Tailwind, без довільних hex.
+ */
+
+@custom-variant dark (&:where(.dark, .dark *));
+
 :root {
+  /* §2.1 Базові токени shadcn/ui */
   --background: #f3f6f4;
   --foreground: #0e1a16;
+  --card: #ffffff;
+  --card-foreground: #0e1a16;
+  --popover: #ffffff;
+  --popover-foreground: #0e1a16;
+  --primary: #047857;
+  --primary-foreground: #ffffff;
+  --secondary: #e6f4ee;
+  --secondary-foreground: #065f46;
+  --muted: #edf1ef;
+  --muted-foreground: #56665f;
+  --accent: #e6f4ee;
+  --accent-foreground: #065f46;
+  --destructive: #be123c;
+  --border: #dfe6e2;
+  --input: #d3dcd8;
+  --ring: #10b981;
+  --radius: 0.75rem;
+
+  /* §2.2 Фінансові та статусні токени */
+  --income: #047857;
+  --expense: #be123c;
+  --transfer: #1d4ed8;
+  --warning: #b45309;
+  --warning-soft: #fef3c7;
+  --success-soft: #d1fae5;
+  --expense-soft: #ffe4e6;
+  --plan: #94a3a0;
+
+  /* §2.3 Градієнт «hero» — лише одна головна картка екрана */
+  --hero: linear-gradient(135deg, #047857 0%, #0f766e 55%, #0e7490 100%);
+  --hero-foreground: #ffffff;
+  --hero-muted: rgba(255, 255, 255, 0.8);
+
+  /* §2.4 Палітра категорій (порядок фіксований) */
+  --chart-1: #059669;
+  --chart-2: #2563eb;
+  --chart-3: #d97706;
+  --chart-4: #7c3aed;
+  --chart-5: #db2777;
+  --chart-6: #0891b2;
+  --chart-7: #94a3b8;
+
+  /* §4 Тіні */
+  --card-shadow: 0 1px 2px rgba(14, 26, 22, 0.06), 0 4px 16px rgba(14, 26, 22, 0.06);
+
+  /* §4.1 Скло і фон */
+  --ambient:
+    radial-gradient(70% 45% at 0% 0%, rgba(16, 185, 129, 0.2), transparent 70%),
+    radial-gradient(60% 40% at 100% 15%, rgba(14, 116, 144, 0.16), transparent 70%), #f3f6f4;
+  --glass: rgba(255, 255, 255, 0.62);
+  --glass-strong: rgba(255, 255, 255, 0.8);
+  --glass-border: rgba(255, 255, 255, 0.65);
+  --glass-shadow: 0 8px 32px rgba(14, 26, 22, 0.12);
+  --scrim: rgba(5, 12, 10, 0.35);
+  --primary-glow: rgba(4, 120, 87, 0.4);
+
+  /* §6.1 Рух */
+  --dur-fast: 150ms;
+  --dur-base: 220ms;
+  --dur-slow: 500ms;
+  --dur-progress: 800ms;
+}
+
+.dark {
+  --background: #0a110f;
+  --foreground: #e7f0ec;
+  --card: #121b18;
+  --card-foreground: #e7f0ec;
+  --popover: #16211d;
+  --popover-foreground: #e7f0ec;
+  --primary: #34d399;
+  --primary-foreground: #04271c;
+  --secondary: #1a2925;
+  --secondary-foreground: #a7f3d0;
+  --muted: #18221f;
+  --muted-foreground: #97aaa3;
+  --accent: #1a2925;
+  --accent-foreground: #a7f3d0;
+  --destructive: #fb7185;
+  --border: #24322d;
+  --input: #2c3b36;
+  --ring: #34d399;
+
+  --income: #34d399;
+  --expense: #fb7185;
+  --transfer: #60a5fa;
+  --warning: #fbbf24;
+  --warning-soft: #3a2c0b;
+  --success-soft: #0f3328;
+  --expense-soft: #3b1620;
+  --plan: #5e706a;
+
+  --hero: linear-gradient(135deg, #065f46 0%, #115e59 55%, #155e75 100%);
+
+  --chart-1: #34d399;
+  --chart-2: #60a5fa;
+  --chart-3: #fbbf24;
+  --chart-4: #a78bfa;
+  --chart-5: #f472b6;
+  --chart-6: #22d3ee;
+  --chart-7: #64748b;
+
+  /* Темна тема: картки без тіней, лише --border */
+  --card-shadow: none;
+
+  --ambient:
+    radial-gradient(70% 45% at 0% 0%, rgba(52, 211, 153, 0.14), transparent 70%),
+    radial-gradient(60% 40% at 100% 15%, rgba(34, 211, 238, 0.1), transparent 70%), #0a110f;
+  --glass: rgba(24, 36, 32, 0.55);
+  --glass-strong: rgba(18, 27, 24, 0.78);
+  --glass-border: rgba(255, 255, 255, 0.08);
+  --glass-shadow: 0 8px 32px rgba(0, 0, 0, 0.45);
+  --primary-glow: rgba(52, 211, 153, 0.25);
 }
 
 @theme inline {
+  --font-sans: var(--font-manrope), system-ui, sans-serif;
+
   --color-background: var(--background);
   --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+
+  --color-income: var(--income);
+  --color-expense: var(--expense);
+  --color-transfer: var(--transfer);
+  --color-warning: var(--warning);
+  --color-warning-soft: var(--warning-soft);
+  --color-success-soft: var(--success-soft);
+  --color-expense-soft: var(--expense-soft);
+  --color-plan: var(--plan);
+  --color-hero-foreground: var(--hero-foreground);
+  --color-hero-muted: var(--hero-muted);
+
+  --color-chart-1: var(--chart-1);
+  --color-chart-2: var(--chart-2);
+  --color-chart-3: var(--chart-3);
+  --color-chart-4: var(--chart-4);
+  --color-chart-5: var(--chart-5);
+  --color-chart-6: var(--chart-6);
+  --color-chart-7: var(--chart-7);
+
+  --color-glass: var(--glass);
+  --color-glass-strong: var(--glass-strong);
+  --color-glass-border: var(--glass-border);
+  --color-scrim: var(--scrim);
+
+  /* Радіуси: кнопки й поля 12 px (lg), картки 20 px (card), висувна й нижня панелі 28 px (sheet) */
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
+  --radius-card: 1.25rem;
+  --radius-sheet: 1.75rem;
+
+  --shadow-card: var(--card-shadow);
+  --shadow-glass: var(--glass-shadow);
+  --shadow-primary-glow: 0 6px 18px var(--primary-glow);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a110f;
-    --foreground: #e7f0ec;
+@theme {
+  --ease-out: cubic-bezier(0.22, 1, 0.36, 1);
+  --ease-spring: cubic-bezier(0.32, 0.72, 0, 1);
+
+  --animate-rise: lh-rise 500ms cubic-bezier(0.22, 1, 0.36, 1) both;
+  --animate-nav-in: lh-nav-in 550ms cubic-bezier(0.32, 0.72, 0, 1) 150ms both;
+
+  @keyframes lh-rise {
+    from {
+      opacity: 0;
+      transform: translateY(14px);
+    }
+    to {
+      opacity: 1;
+      transform: none;
+    }
+  }
+
+  @keyframes lh-nav-in {
+    from {
+      opacity: 0;
+      transform: translateY(24px) scale(0.96);
+    }
+    to {
+      opacity: 1;
+      transform: none;
+    }
   }
 }
 
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: system-ui, sans-serif;
+/* Розмиття скла: шапки й панелі — 24 px, висувні панелі — 32 px (§4.1) */
+@utility glass-blur {
+  -webkit-backdrop-filter: blur(24px) saturate(180%);
+  backdrop-filter: blur(24px) saturate(180%);
+}
+
+@utility glass-blur-strong {
+  -webkit-backdrop-filter: blur(32px) saturate(180%);
+  backdrop-filter: blur(32px) saturate(180%);
+}
+
+@utility scrim-blur {
+  -webkit-backdrop-filter: blur(6px);
+  backdrop-filter: blur(6px);
+}
+
+/* Натискання: scale(.97), у навігації .94, за 220 мс з пружною кривою (§6.1) */
+@utility pressable {
+  transition-property: transform, background-color, color, box-shadow;
+  transition-duration: var(--dur-base);
+  transition-timing-function: var(--ease-spring);
+  &:active {
+    transform: scale(0.97);
+  }
+}
+
+@utility pressable-nav {
+  transition-property: transform, background-color, color, box-shadow;
+  transition-duration: var(--dur-base);
+  transition-timing-function: var(--ease-spring);
+  &:active {
+    transform: scale(0.94);
+  }
+}
+
+/* Поява карток каскадом: крок 50 мс, максимум 300 мс затримки (§6.1) */
+@utility stagger {
+  & > * {
+    animation: var(--animate-rise);
+  }
+  & > *:nth-child(2) {
+    animation-delay: 50ms;
+  }
+  & > *:nth-child(3) {
+    animation-delay: 100ms;
+  }
+  & > *:nth-child(4) {
+    animation-delay: 150ms;
+  }
+  & > *:nth-child(5) {
+    animation-delay: 200ms;
+  }
+  & > *:nth-child(6) {
+    animation-delay: 250ms;
+  }
+  & > *:nth-child(n + 7) {
+    animation-delay: 300ms;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+
+  html {
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  body {
+    @apply bg-background font-sans text-[15px]/[22px] font-medium text-foreground;
+  }
+
+  /* Фон сторінки з м'якими відблисками, щоб скло було видно (§4.1) */
+  body::before {
+    content: "";
+    position: fixed;
+    inset: 0;
+    z-index: -1;
+    background: var(--ambient);
+    pointer-events: none;
+  }
+}
+
+/* Запасний варіант скла: без backdrop-filter або з «Зменшити прозорість» — суцільний --card (§4.1) */
+@supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
+  .bg-glass,
+  .bg-glass-strong {
+    background-color: var(--card) !important;
+  }
+}
+
+@media (prefers-reduced-transparency: reduce) {
+  .bg-glass,
+  .bg-glass-strong {
+    background-color: var(--card) !important;
+  }
+  .glass-blur,
+  .glass-blur-strong,
+  .scrim-blur {
+    -webkit-backdrop-filter: none !important;
+    backdrop-filter: none !important;
+  }
+}
+
+/* «Зменшити рух» вимикає анімації й переходи (§6.1) */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-delay: 0ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    transition-delay: 0ms !important;
+    scroll-behavior: auto !important;
+  }
+  .pressable:active,
+  .pressable-nav:active {
+    transform: none;
+  }
 }

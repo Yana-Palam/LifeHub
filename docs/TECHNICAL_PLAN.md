@@ -110,6 +110,7 @@ LifeHub/
 │  │  ├─ db/                     # Prisma client, хелпер транзакцій
 │  │  ├─ auth/                   # отримання сесії, guard для actions
 │  │  ├─ result/                 # ActionResult, типи помилок
+│  │  ├─ lib/                    # дрібні утиліти без бізнес-логіки (cn для класів Tailwind)
 │  │  └─ ui/                     # shadcn/ui і спільні компоненти (MoneyInput, DatePicker…)
 │  └─ middleware.ts              # редірект на /login без сесії
 ├─ tests/
