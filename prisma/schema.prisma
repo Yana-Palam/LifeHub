@@ -1,0 +1,24 @@
+// Схема БД LifeHub. Модель даних — docs/TECHNICAL_PLAN.md §6–§7.
+// Зміни — лише новою міграцією (`npm run db:migrate`); застосовані міграції не редагуються.
+// CHECK-обмеження додаються сирим SQL у файлі міграції (TECHNICAL_PLAN §7.3).
+
+generator client {
+  provider = "prisma-client"
+  output   = "../src/generated/prisma"
+}
+
+// Рядок підключення — у prisma.config.ts (для CLI) і в src/shared/db (для застосунку).
+datasource db {
+  provider = "postgresql"
+}
+
+/// Єдиний користувач застосунку (TECHNICAL_PLAN §8). Створюється сидом на день 5; реєстрації немає.
+model User {
+  id           String   @id @default(uuid(7)) @db.Uuid
+  /// Зберігається нормалізованим (нижній регістр) — нормалізацію виконує сервіс входу.
+  email        String   @unique
+  /// Хеш пароля (argon2id або bcrypt, TD-1); сам пароль ніколи не зберігається.
+  passwordHash String
+  createdAt    DateTime @default(now()) @db.Timestamptz(3)
+  updatedAt    DateTime @updatedAt @db.Timestamptz(3)
+}

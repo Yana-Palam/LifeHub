@@ -34,7 +34,7 @@
 |---|---|---|---|---|---|
 | 1 | Ініціалізація проєкту | Next.js (App Router) + TypeScript strict + Tailwind + ESLint + Prettier, git-репозиторій, `.gitignore`, `.env.example` | Застосунок стартує, сторінка-заглушка «LifeHub» | `dev` відкриває сторінку; `lint`, `typecheck` | — |
 | 2 | Каркас UI, тема і навігація | shadcn/ui з токенами DESIGN.md §2–4 (світла й темна тема, Manrope), layout із бічною панеллю (desktop) і нижньою панеллю з «+» (mobile), порожні сторінки модулів, `lang="uk"` | Усі пункти меню ведуть на заглушки; перемикач теми працює | Ручна перевірка на 1280 і 375 px в обох темах, звірка з макетом | 1 |
-| 3 | База даних | `docker-compose.yml` з PostgreSQL, Prisma init, `shared/db`, перша міграція (таблиця `User`) | Міграція застосовується з нуля | `prisma migrate reset` без помилок | 1 |
+| 3 | База даних | PostgreSQL для розробки — гілки Neon `dev`/`test` (ADR 0002; замість запланованого `docker-compose.yml`), Prisma init, `shared/db`, перша міграція (таблиця `User`) | Міграція застосовується з нуля | `prisma migrate reset` без помилок | 1 |
 | 4 | Модуль грошей | `shared/money`: `parseUah`, `formatUah`, арифметика в копійках, тип `Kopecks`; Vitest налаштовано | Unit-тести: коми/крапки, пробіли, 2 знаки, від'ємні, межі | `test` — усі зелені | 1 |
 | 5 | Автентифікація | Auth.js Credentials, хеш пароля, сид користувача з env, сторінка входу, `middleware.ts`, guard для actions | Без входу — редірект на `/login`; вхід і вихід працюють | Ручна перевірка + unit-тест guard | 2, 3 |
 | 6 | E2E-інфраструктура і дати | Playwright (desktop + 375 px), smoke-тест входу; `shared/dates` (Europe/Kyiv, межі місяця і тижня) з тестами | `test:e2e` проходить | `test:e2e`, `test` | 5 |
