@@ -8,3 +8,4 @@ next-env.d.ts
 # Документація і макети форматуються вручну
 docs
 *.md
+src/generated

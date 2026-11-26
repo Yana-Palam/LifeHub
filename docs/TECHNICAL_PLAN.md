@@ -16,8 +16,8 @@
 | Стилі | Tailwind CSS | |
 | UI-компоненти | shadcn/ui (Radix) | Компоненти копіюються в `src/shared/ui` |
 | Backend | Server Actions (мутації) + Route Handlers (експорт CSV, завантаження файлів, AI-стрімінг) | Окремого бекенду немає |
-| БД | PostgreSQL | Локально — Docker |
-| ORM | Prisma | Міграції через `prisma migrate` |
+| БД | PostgreSQL | Розробка й тести — гілки Neon `dev`/`test` (ADR 0002) |
+| ORM | Prisma 7 | Міграції через `prisma migrate`; конфігурація CLI — `prisma.config.ts`; підключення через `@prisma/adapter-pg` |
 | Валідація | Zod | Спільні схеми для клієнта й сервера |
 | Форми | React Hook Form + `@hookform/resolvers/zod` | |
 | Графіки | Recharts | Тільки клієнтські компоненти |
@@ -75,6 +75,7 @@ LifeHub/
 ├─ AGENTS.md                    # правила для AI-агентів (джерело правди)
 ├─ CLAUDE.md                    # лише підключає AGENTS.md
 ├─ docs/                         # документація (цей набір) + docs/decisions/
+├─ prisma.config.ts             # конфігурація Prisma CLI (схема, міграції, DATABASE_URL)
 ├─ prisma/
 │  ├─ schema.prisma
 │  ├─ migrations/
@@ -93,6 +94,7 @@ LifeHub/
 │  │  │  ├─ travel/
 │  │  │  └─ assistant/
 │  │  └─ api/                    # route handlers: export, uploads, ai, auth
+│  ├─ generated/prisma/          # згенерований Prisma Client (не комітиться)
 │  ├─ modules/
 │  │  ├─ finance/   { domain, repository, services, actions, schemas, components, index.ts }
 │  │  ├─ goals/
@@ -107,7 +109,7 @@ LifeHub/
 │  │  ├─ money/                  # парсинг, форматування, арифметика в копійках
 │  │  ├─ units/                  # одиниці, розмірності, конвертація
 │  │  ├─ dates/                  # Europe/Kyiv, межі місяців і тижнів
-│  │  ├─ db/                     # Prisma client, хелпер транзакцій
+│  │  ├─ db/                     # Prisma client (`db`), типи `Tx`/`DbClient` для транзакцій
 │  │  ├─ auth/                   # отримання сесії, guard для actions
 │  │  ├─ result/                 # ActionResult, типи помилок
 │  │  ├─ lib/                    # дрібні утиліти без бізнес-логіки (cn для класів Tailwind)
@@ -116,7 +118,7 @@ LifeHub/
 ├─ tests/
 │  ├─ integration/               # сервіси з тестовою БД
 │  └─ e2e/                       # Playwright
-└─ docker-compose.yml            # локальний PostgreSQL
+└─ .env.example                  # шаблон змінних середовища (DATABASE_URL, TEST_DATABASE_URL…)
 ```
 
 Unit-тести лежать поруч із кодом (`*.test.ts`).
@@ -161,9 +163,10 @@ dashboard, ai ──► (читають публічні сервіси всіх
 ## 4. Frontend Architecture
 
 - **Server Components за замовчуванням** для читання даних (списки, Dashboard, звіти). Дані беруться з сервісів модулів напряму на сервері.
+- **Рендеринг (TD-9, [ADR 0001](decisions/0001-disable-cache-components.md)):** `cacheComponents` і `partialPrefetching` вимкнені. Сторінки, що читають сесію або БД, рендеряться динамічно на кожен запит; `"use cache"` не використовуємо. `<Suspense>`/`loading.tsx` — для UX, не обов'язкові. Сторінка, що читає БД без сесії, викликає `await connection()`, щоб не пререндеритися під час збірки.
 - **Client Components** лише там, де потрібна інтерактивність: форми, графіки, drag & drop, перемикачі.
 - **Форми:** React Hook Form + Zod-схема модуля; той самий `schema` перевіряється на сервері в action. Поле суми — спільний компонент `MoneyInput` (рядок → копійки).
-- **Мутації:** Server Actions; після успіху — `revalidatePath`/`revalidateTag` потрібних сторінок; повідомлення через toast.
+- **Мутації:** Server Actions; після успіху — `revalidatePath` потрібних сторінок (класична модель, ADR 0001; `revalidateTag(tag, "max")` — лише якщо з'явиться кеш із тегами, §15); повідомлення через toast.
 - **Оптимістичні оновлення** — лише для дешевих дій (позначити позицію купленою), з відкатом при помилці.
 - **Навігація:** desktop — бічна панель; mobile (< 768 px) — нижня панель із 5 пунктами (Головна, Фінанси, Покупки, Їжа, Ще) і плаваюча кнопка «+ Операція».
 - **Локалізація:** тексти українською прямо в компонентах (одна мова, i18n-бібліотека не потрібна); форматування через `Intl` з `uk-UA`.
@@ -174,13 +177,13 @@ dashboard, ai ──► (читають публічні сервіси всіх
 - **Server Actions** для всіх мутацій зі сторінок. Кожна action: (1) перевіряє сесію, (2) парсить ввід Zod, (3) викликає сервіс, (4) повертає `ActionResult<T>`:
   `{ ok: true, data } | { ok: false, error: { code, message, fieldErrors? } }`.
 - **Route Handlers** для: експорту CSV (стрім файлу), завантаження фото/документів, AI (стрімінг відповіді), Auth.js.
-- **Сервіси** містять use cases і відкривають транзакції БД (`prisma.$transaction`) для багатокрокових операцій.
+- **Сервіси** містять use cases і відкривають транзакції БД (`db.$transaction`, клієнт транзакції — тип `Tx` із `shared/db`) для багатокрокових операцій.
 - **Доменні помилки** — типізовані (`ValidationError`, `NotFoundError`, `ConflictError`, `BusinessRuleError` з кодом правила, наприклад `BR-14`). Action перетворює їх на зрозумілі повідомлення українською.
 - **Ідемпотентність створення:** форми надсилають `clientRequestId` (UUID, генерується при відкритті форми). Для Transaction, Purchase, передачі меню в список він зберігається з унікальним індексом; повтор повертає вже створений запис.
 
 ## 6. Data Layer
 
-- Prisma Client — один екземпляр (`shared/db`), без глобальних побічних ефектів у тестах.
+- Prisma Client — один екземпляр `db` (`shared/db`), без глобальних побічних ефектів у тестах. Генератор `prisma-client` (Prisma 7) пише клієнт у `src/generated/prisma`; підключення — driver adapter `@prisma/adapter-pg` з `DATABASE_URL`. Клієнт створюється ліниво (під час першого запиту, не під час імпорту — тож unit-тести й `build` не потребують `DATABASE_URL`) і кешується на `globalThis`, щоб HMR не відкривав нові пули з'єднань.
 - Репозиторії модулів — тонкі функції над Prisma з явними `select`, щоб не тягнути зайві поля.
 - **Агрегації в БД:** суми, групування за категоріями й місяцями виконуються в SQL (`groupBy`, `aggregate` або `$queryRaw` з параметрами), а не в JavaScript по всіх рядках.
 - **Похідні показники не зберігаються** (баланси, факти бюджетів, прогрес цілей, факт подорожі): вони обчислюються із джерельних даних. Кешування — лише за доведеної потреби (див. §15).
@@ -265,7 +268,8 @@ Prisma не описує CHECK-обмеження, тому вони додаю�
 
 - Кожна зміна схеми — окрема міграція з осмисленою назвою; міграції не редагуються після застосування.
 - `seed.ts` (ідемпотентний): користувач (пароль з env), стартові категорії доходів і витрат українською, категорії продуктів, категорії рецептів.
-- Тестова БД — окрема (`DATABASE_URL` для тестів), очищається перед кожним integration-тестовим файлом.
+- Тестова БД — окрема гілка Neon `test` (`TEST_DATABASE_URL`, ADR 0002), очищається перед кожним integration-тестовим файлом. Налаштування Vitest (день 4) підставляє `process.env.DATABASE_URL = process.env.TEST_DATABASE_URL` до першого звернення до `db` і застосовує міграції до гілки `test` (`migrate deploy` з тим самим підставленим URL).
+- Команди: `db:migrate` (`migrate dev` — нова міграція), `db:deploy` (`migrate deploy`), `db:reset` (`migrate reset` — лише dev/test), `db:status`, `db:generate`, `db:studio`. Prisma 7 не генерує клієнт автоматично — це робить `postinstall`/`db:generate`.
 
 ## 8. Authentication and Data Security
 
@@ -345,7 +349,7 @@ Prisma не описує CHECK-обмеження, тому вони додаю�
 
 ## 12. Deployment Strategy
 
-- **Середовища:** local (Docker Postgres), production. Staging — за потреби (відкрите рішення).
+- **Середовища:** local (застосунок локально + гілка Neon `dev`; тести — гілка `test`, ADR 0002), production (гілка Neon `production`). Staging — за потреби (відкрите рішення).
 - **Рекомендація за замовчуванням (TD-2):** Vercel (застосунок) + керований PostgreSQL (Neon, регіон EU). Альтернатива — Docker-образ на VPS з Postgres.
 - **Міграції** в продакшні — `prisma migrate deploy` перед стартом нової версії.
 - **Конфігурація** — лише змінні середовища; `.env.example` описує всі змінні.
@@ -416,7 +420,7 @@ Prisma не описує CHECK-обмеження, тому вони додаю�
 | TD-5 | Межі модулів: `eslint-plugin-boundaries` чи `no-restricted-imports` | `no-restricted-imports` (простіше) | Тиждень 4 |
 | TD-6 | Моніторинг помилок у продакшні (Sentry тощо) | Без зовнішнього сервісу, лише логи хостингу | Тиждень 16 |
 | TD-7 | Формат зберігання інструкції рецепта (простий текст чи список кроків) | Масив кроків (текст) | Тиждень 9 |
-| TD-9 | Next.js 16 `cacheComponents` + `partialPrefetching` (увімкнені шаблоном): лишити (тоді незакешовані дані — у `<Suspense>` або `"use cache"`, інша модель ревалідації, §4–§5 оновити) чи вимкнути й працювати з класичним динамічним рендерингом | Вирішити з користувачем; ADR 0001 | До дня 3 |
+| TD-9 | Next.js 16 `cacheComponents` + `partialPrefetching` (увімкнені шаблоном): лишити чи вимкнути | **Вирішено:** вимкнено, класичний динамічний рендеринг — [ADR 0001](decisions/0001-disable-cache-components.md) | ✅ День 3 |
 | TD-8 | Staging-середовище | Не потрібне для одного користувача; preview-деплої Vercel | Тиждень 15 |
 
 Рішення фіксуються як ADR у `docs/decisions/NNNN-<назва>.md` (контекст, рішення, наслідки).
