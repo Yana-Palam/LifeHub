@@ -11,7 +11,7 @@
 
 ## Вимоги
 
-- Node.js 20.9 або новіший (перевірено на Node 24)
+- Node.js 22.12 або новіший (потрібно для Vitest 5; перевірено на Node 24)
 - npm
 - База даних PostgreSQL — проєкт [Neon](https://neon.tech) з гілками `dev` і `test` ([ADR 0002](docs/decisions/0002-neon-dev-database.md)); підійде й будь-який інший PostgreSQL
 
